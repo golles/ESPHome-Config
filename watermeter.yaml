@@ -1,0 +1,51 @@
+esphome:
+  name: watermeter
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret watermeter_static_ip
+    gateway: !secret gateway
+    subnet: !secret subnet 
+
+  ap:
+    ssid: !secret watermeter_ap_ssid
+    password: !secret watermeter_ap_ssid
+
+captive_portal:
+
+logger:
+
+api:
+  password: !secret watermeter_api_password
+
+ota:
+  password: !secret watermeter_api_password
+
+sensor:
+  - platform: pulse_counter
+    id: watermeter
+    pin: D3
+    name: watermeter_usage
+    update_interval: 1s
+    unit_of_measurement: 'L'
+    filters:
+      - multiply: 0.016666667
+  
+  - platform: wifi_signal
+    name: watermeter_esphome_wifi_signal
+    update_interval: 10s
+
+  - platform: uptime
+    name: watermeter_esphome_uptime
+
+switch:
+  - platform: restart
+    name: watermeter_esphome_restart
+
+text_sensor:
+  - platform: version
+    name: watermeter_esphome_version
