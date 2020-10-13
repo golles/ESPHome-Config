@@ -27,25 +27,29 @@ ota:
 
 sensor:
   - platform: pulse_counter
-    id: watermeter
     pin: D3
-    name: watermeter_usage
+    id: "watermeter_pulse"
+    name: "Water pulse"
     update_interval: 1s
-    unit_of_measurement: 'L'
+    unit_of_measurement: "L"
     filters:
       - multiply: 0.016666667
   
   - platform: wifi_signal
-    name: watermeter_esphome_wifi_signal
+    id: "watermeter_esphome_wifi_signal"
+    name: "Watermeter wifi signaal"
     update_interval: 10s
 
   - platform: uptime
-    name: watermeter_esphome_uptime
+    id: "watermeter_esphome_uptime"
+    name: "Watermeter uptime"
 
 switch:
   - platform: restart
-    name: watermeter_esphome_restart
+    id: "watermeter_esphome_restart"
+    name: "Watermeter herstart"
 
 text_sensor:
   - platform: version
-    name: watermeter_esphome_version
+    id: watermeter_esphome_version
+    name: "Watermeter version"
