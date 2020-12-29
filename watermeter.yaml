@@ -33,7 +33,7 @@ globals:
   - id: totalWaterUsage
     type: float
     restore_value: yes
-    initial_value: '184.596' # 21-10-2010 13:07
+    initial_value: '199.601' # 19-12-2020 20:00
 
 sensor:
   - platform: pulse_counter
