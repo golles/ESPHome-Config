@@ -33,11 +33,11 @@ globals:
   - id: totalWaterUsage
     type: float
     restore_value: yes
-    initial_value: '199.601' # 19-12-2020 20:00
+    initial_value: '211.437' # 16-2-2021 16:00
 
 sensor:
   - platform: pulse_counter
-    pin: D3
+    pin: D4
     id: watermeter_pulse
     name: ${upper_devicename} pulse
     update_interval: 1s
