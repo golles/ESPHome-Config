@@ -27,13 +27,13 @@ api:
   password: !secret watermeter_api_password
 
 ota:
-  password: !secret watermeter_api_password
+  password: !secret watermeter_ota_password
 
 globals:
   - id: totalWaterUsage
     type: float
     restore_value: yes
-    initial_value: '221.541' # 10-4-2021 14:00
+    initial_value: '224.458' # 24-4-2021 12:00
 
 sensor:
   - platform: pulse_counter
@@ -59,20 +59,20 @@ sensor:
       return id(totalWaterUsage);
   
   - platform: wifi_signal
-    id: watermeter_esphome_wifi_signal
+    id: ${devicename}_esphome_wifi_signal
     name: ${upper_devicename} wifi signaal
     update_interval: 10s
 
   - platform: uptime
-    id: watermeter_esphome_uptime
+    id: ${devicename}_esphome_uptime
     name: ${upper_devicename} uptime
 
 switch:
   - platform: restart
-    id: watermeter_esphome_restart
+    id: ${devicename}_esphome_restart
     name: ${upper_devicename} herstart
 
 text_sensor:
   - platform: version
-    id: watermeter_esphome_version
+    id: ${devicename}_esphome_version
     name: ${upper_devicename} version
