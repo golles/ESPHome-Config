@@ -32,7 +32,7 @@ ota:
 globals:
   - id: totalWaterUsage
     type: float
-    restore_value: yes
+    restore_value: yes       # When updating below value, change this to no for 1 run.
     initial_value: '224.458' # 24-4-2021 12:00
 
 sensor:
