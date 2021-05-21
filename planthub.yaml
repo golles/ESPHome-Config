@@ -61,6 +61,50 @@ sensor:
     conductivity:
       name: Plant 87 Soil Conductivity
 
+  - platform: xiaomi_hhccjcy01
+    mac_address: "C4:7C:8D:6C:C6:5D"
+    temperature:
+      name: Plant 5D Temperature
+    moisture:
+      name: Plant 5D Moisture
+    illuminance:
+      name: Plant 5D Illuminance
+    conductivity:
+      name: Plant 5D Soil Conductivity
+
+  - platform: xiaomi_hhccjcy01
+    mac_address: "C4:7C:8D:6C:7E:71"
+    temperature:
+      name: Plant 71 Temperature
+    moisture:
+      name: Plant 71 Moisture
+    illuminance:
+      name: Plant 71 Illuminance
+    conductivity:
+      name: Plant 71 Soil Conductivity
+
+  - platform: xiaomi_hhccjcy01
+    mac_address: "C4:7C:8D:6C:9D:10"
+    temperature:
+      name: Plant 10 Temperature
+    moisture:
+      name: Plant 10 Moisture
+    illuminance:
+      name: Plant 10 Illuminance
+    conductivity:
+      name: Plant 10 Soil Conductivity
+
+  - platform: xiaomi_hhccjcy01
+    mac_address: "C4:7C:8D:6C:98:AE"
+    temperature:
+      name: Plant AE Temperature
+    moisture:
+      name: Plant AE Moisture
+    illuminance:
+      name: Plant AE Illuminance
+    conductivity:
+      name: Plant AE Soil Conductivity
+
 switch:
   - platform: restart
     id: ${devicename}_esphome_restart
