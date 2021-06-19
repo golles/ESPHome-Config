@@ -1,0 +1,139 @@
+substitutions:
+  devicename: particulate_matter
+  upper_devicename: Particulate matter
+
+esphome:
+  name: $devicename
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret particulate_matter_static_ip
+    gateway: !secret gateway
+    subnet: !secret subnet 
+
+  ap:
+    ssid: !secret particulate_matter_ap_ssid
+    password: !secret particulate_matter_ap_ssid
+
+captive_portal:
+
+logger:
+
+api:
+  password: !secret particulate_matter_api_password
+
+ota:
+  password: !secret particulate_matter_ota_password
+
+http_request:
+  useragent: esphome/device
+  timeout: 10s
+
+uart: # Enable UART for SDS011
+  rx_pin: D1
+  tx_pin: D2
+  baud_rate: 9600
+
+i2c: # Enable i2c for BME280
+  sda: D5
+  scl: D6
+
+sensor:  
+  - platform: wifi_signal
+    id: ${devicename}_esphome_wifi_signal
+    name: ${upper_devicename} wifi signaal
+    update_interval: 60s
+
+  - platform: uptime
+    id: ${devicename}_esphome_uptime
+    name: ${upper_devicename} uptime
+    update_interval: 60s
+  
+  - platform: sds011
+    pm_10_0:
+      id: ${devicename}_p1
+      name: ${upper_devicename} <10.0µm Concentration
+      accuracy_decimals: 2
+    pm_2_5:
+      id: ${devicename}_p2
+      name: ${upper_devicename} <2.5µm Concentration
+      accuracy_decimals: 2
+      # The assumption is that all the sensor values update in the same cycle.
+      # In that case we can run the following automation on 1 of the sensors.
+      on_value:
+        - script.execute: push_sds011_data
+    update_interval: 30min
+
+  - platform: bme280
+    address: 0x76
+    humidity:
+      id: ${devicename}_humidity
+      name: ${upper_devicename} humidity
+      accuracy_decimals: 2
+    pressure:
+      id: ${devicename}_pressure
+      name: ${upper_devicename} pressure
+      accuracy_decimals: 4
+    temperature:
+      id: ${devicename}_temperature
+      name: ${upper_devicename} temperature
+      accuracy_decimals: 2
+      # The assumption is that all the sensor values update in the same cycle.
+      # In that case we can run the following automation on 1 of the sensors.
+      on_value:
+        - script.execute: push_bme280_data
+    update_interval: 5min
+
+binary_sensor:
+  - platform: status
+    id: ${devicename}_esphome_status
+    name: ${upper_devicename} status
+
+switch:
+  - platform: restart
+    id: ${devicename}_esphome_restart
+    name: ${upper_devicename} restart
+
+text_sensor:
+  - platform: version
+    id: ${devicename}_esphome_version
+    name: ${upper_devicename} version
+
+script:
+  - id: push_sds011_data
+    then:
+      - http_request.post:
+          url: https://api.sensor.community/v1/push-sensor-data/
+          headers:
+            Content-Type: application/json
+            X-Pin: 1  # This tells Luftdaten that it is SDS011 data.
+            X-Sensor: !secret luftdaten_x_sensor
+          json: |-
+            root["software_version"] = id(${devicename}_esphome_version).state;
+            root["sensordatavalues"][0]["value_type"] = P1;
+            root["sensordatavalues"][0]["value"] = id(${devicename}_p1).state;
+            root["sensordatavalues"][1]["value_type"] = P2;
+            root["sensordatavalues"][1]["value"] = id(${devicename}_p2).state;
+          verify_ssl: false
+
+  - id: push_bme280_data
+    then:
+      - http_request.post:
+          url: https://api.sensor.community/v1/push-sensor-data/
+          headers:
+            Content-Type: application/json
+            X-Pin: 11  # This tells Luftdaten that it is BME280 data.
+            X-Sensor: !secret luftdaten_x_sensor
+          json: |-
+            root["software_version"] = id(${devicename}_esphome_version).state;
+            root["sensordatavalues"][0]["value_type"] = humidity;
+            root["sensordatavalues"][0]["value"] = id(${devicename}_humidity).state;
+            root["sensordatavalues"][1]["value_type"] = pressure;
+            root["sensordatavalues"][1]["value"] = id(${devicename}_pressure).state;
+            root["sensordatavalues"][2]["value_type"] = temperature;
+            root["sensordatavalues"][2]["value"] = id(${devicename}_temperature).state;
+          verify_ssl: false
