@@ -16,8 +16,8 @@ wifi:
     subnet: !secret subnet 
 
   ap:
-    ssid: !secret watermeter_ap_ssid
-    password: !secret watermeter_ap_ssid
+    ssid: ${upper_devicename}
+    password: ap_password
 
 captive_portal:
 
