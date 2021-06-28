@@ -17,7 +17,7 @@ wifi:
 
   ap:
     ssid: ${upper_devicename}
-    password: ap_password
+    password: !secret ap_password
 
 captive_portal:
 
