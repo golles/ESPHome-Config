@@ -14,7 +14,7 @@ wifi:
     static_ip: !secret particulate_matter_static_ip
     gateway: !secret gateway
     subnet: !secret subnet
-    dns1: !secret dsn1 # Without DNS the device can't find any host on the internet.
+    dns1: !secret dns1 # Without DNS the device can't find any host on the internet.
     dns2: !secret dns2
 
   ap:
