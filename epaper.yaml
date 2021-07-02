@@ -1,0 +1,276 @@
+substitutions:
+  devicename: epaper
+  upper_devicename: Epaper
+
+esphome:
+  name: $devicename
+  platform: ESP32
+  board: esp32doit-devkit-v1
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret epaper_static_ip
+    gateway: !secret gateway
+    subnet: !secret subnet 
+    dns1: !secret dns1
+    dns2: !secret dns2
+
+  ap:
+    ssid: ${upper_devicename}
+    password: !secret ap_password
+
+captive_portal:
+
+logger:
+
+api:
+  password: !secret epaper_api_password
+
+ota:
+  password: !secret epaper_ota_password
+
+font:
+  - file: 'fonts/Roboto-Medium.ttf'
+    id: roboto_med_30
+    size: 30
+  - file: 'fonts/Roboto-Regular.ttf'
+    id: footer_font
+    size: 15
+    glyphs:
+      ['&', '@', '!', ',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
+       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
+       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+       'u', 'v', 'w', 'x', 'y', 'z','å', 'ä', 'ö', '/','º','µ','³']
+
+  - file: 'fonts/Roboto-Regular.ttf'
+    id: main_sensor_unit
+    size: 20
+    glyphs:
+      ['&', '@', '!', ',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
+       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
+       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+       'u', 'v', 'w', 'x', 'y', 'z','å', 'ä', 'ö', '/','º','µ','³']
+       
+  - file: 'fonts/Roboto-Medium.ttf'
+    id: sub_sensor_font
+    size: 30
+    glyphs:
+      ['&', '@', '!', ',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
+       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
+       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+       'u', 'v', 'w', 'x', 'y', 'z','å', 'ä', 'ö', '/','º','µ','³']
+  
+  - file: 'fonts/Roboto-Bold.ttf'
+    id: main_sensor_font
+    size: 80
+  
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id:  mdi_small
+    size: 31
+    glyphs: [
+      # Wifi
+      '󰤫', # mdi-wifi-strength-alert-outline
+      '󰤟', # mdi-wifi-strength-1
+      '󰤢', # mdi-wifi-strength-2
+      '󰤥', # mdi-wifi-strength-3
+      '󰤨', # mdi-wifi-strength-4
+      '󰔏', # mdi-themometer
+      '󰖎' # mdi-water-percent
+      ]
+
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id:  mdi_wifi
+    size: 20
+    glyphs: [
+      # Wifi
+      '󰤫', # mdi-wifi-strength-alert-outline
+      '󰤟', # mdi-wifi-strength-1
+      '󰤢', # mdi-wifi-strength-2
+      '󰤥', # mdi-wifi-strength-3
+      '󰤨'  # mdi-wifi-strength-4
+
+      ]
+
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id:  mdi_med
+    size: 33
+    glyphs: [
+      # Wifi
+      '󰤫', # mdi-wifi-strength-alert-outline
+      '󰤟', # mdi-wifi-strength-1
+      '󰤢', # mdi-wifi-strength-2
+      '󰤥', # mdi-wifi-strength-3
+      '󰤨', # mdi-wifi-strength-4
+      '󰀦' # mdi-alert
+      ]
+
+time:
+  - platform: sntp
+    id: sntp_time
+
+sensor:
+  - platform: wifi_signal
+    id: wifisignal
+    name: ${upper_devicename} wifi signaal
+    update_interval: 10s
+
+  - platform: uptime
+    id: ${devicename}_esphome_uptime
+    name: ${upper_devicename} uptime
+
+  - platform: homeassistant
+    id: pm25_indoor
+    entity_id: fan.air_purifier
+    attribute: aqi
+
+  - platform: homeassistant
+    id: temp_indoor
+    entity_id: climate.woonkamer
+    attribute: current_temperature
+  
+  - platform: homeassistant
+    id: humid_indoor
+    entity_id: climate.woonkamer
+    attribute: current_humidity
+  
+  - platform: homeassistant
+    id: temp_outdoor
+    entity_id: weather.knmi_weidevenne
+    attribute: temperature
+  
+  - platform: homeassistant
+    id: humid_outdoor
+    entity_id: weather.knmi_weidevenne
+    attribute: humidity
+  
+  - platform: homeassistant
+    id: pm25_outdoor
+    entity_id: sensor.particulate_matter_2_5um_concentration
+
+switch:
+  - platform: restart
+    id: ${devicename}_esphome_restart
+    name: ${upper_devicename} herstart
+
+text_sensor:
+  - platform: version
+    id: ${devicename}_esphome_version
+    name: ${upper_devicename} version
+
+spi:
+  clk_pin: GPIO13 # D13
+  mosi_pin: GPIO14 # D14 / DIN
+  
+display:
+  - platform: waveshare_epaper
+    id: epaperdisplay
+    cs_pin: GPIO15 # D15
+    dc_pin: GPIO27 # D27
+    update_interval: 30s
+    busy_pin: GPIO25 # D25
+    reset_pin: GPIO26 # D26
+    model: 4.20in
+    lambda: |-
+      
+      int pm25_danger_thres = 40;
+      
+      float indoor_temp = id(temp_indoor).state;
+      float indoor_humid = id(humid_indoor).state;
+      float indoor_pm25 = id(pm25_indoor).state;
+      float outdoor_temp = id(temp_outdoor).state;
+      float outdoor_humid = id(humid_outdoor).state;
+      float outdoor_pm25 = id(pm25_outdoor).state;
+      
+      /* INTSIDE */
+      it.print(10, 10, id(main_sensor_unit), "BINNEN");
+      it.filled_rectangle(98, 21, 285, 3);
+      it.print(375, 75,  id(mdi_small), TextAlign::BASELINE_CENTER, "󰔏");
+      it.print(375, 115, id(mdi_small), TextAlign::BASELINE_CENTER, "󰖎");
+      
+      if (indoor_temp > -100 && indoor_temp < 100) {
+        it.printf(357, 75, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, "%.1fºc", indoor_temp);
+      } else {
+        it.print(357, 75, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, " - ºc");
+      }
+      if (indoor_humid >= 0 && indoor_humid <= 100) {
+        it.printf(357, 115, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, "%.1f%%", indoor_humid);
+      } else {
+        it.print(357, 115, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, " -  %");
+      }
+      
+      if (indoor_pm25 >= 0 && indoor_pm25 < 255) {
+        if (indoor_pm25 > 99) {
+          it.printf(205, 114, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "%.0f", indoor_pm25);
+          it.print(210, 114, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
+        } else {
+          it.printf(175, 114, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "%.0f", indoor_pm25);
+          it.print(180, 114, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
+        }
+        if (indoor_pm25 >= pm25_danger_thres) {
+          it.print(37, 87, id(mdi_med), TextAlign::BASELINE_CENTER, "󰀦");
+        }
+      } else {
+        it.print(175, 114, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "- ");
+        it.print(180, 114, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
+      }
+      
+      /* OUTSIDE */
+      int offsetY = 137;
+      it.print(10, 10 + offsetY, id(main_sensor_unit), "BUITEN");
+      it.filled_rectangle(78, 21 + offsetY, 305, 3);
+      it.print(375, 75 + offsetY,  id(mdi_small), TextAlign::BASELINE_CENTER, "󰔏");
+      it.print(375, 115 + offsetY, id(mdi_small), TextAlign::BASELINE_CENTER, "󰖎");
+      
+      if (outdoor_temp > -100 && outdoor_temp < 100) {
+        it.printf(357, 75 + offsetY, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, "%.1fºc", outdoor_temp);
+      } else {
+        it.print(357, 75 + offsetY, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, " - ºc");
+      }
+      if (outdoor_humid >= 0 && outdoor_humid <= 100) {
+        it.printf(357, 115 + offsetY, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, "%.1f%%", outdoor_humid);
+      } else {
+        it.print(357, 115 + offsetY, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, " -  %");
+      }
+      
+      if (outdoor_pm25 >= 0 && outdoor_pm25 < 255) {
+        if (outdoor_pm25 > 99) {
+          it.printf(205, 114 + offsetY, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "%.0f", outdoor_pm25);
+          it.print(210, 114 + offsetY, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
+        } else {
+          it.printf(175, 114 + offsetY, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "%.0f", outdoor_pm25);
+          it.print(180, 114 + offsetY, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
+        }
+        if (outdoor_pm25 >= pm25_danger_thres) {
+          it.print(37, 87 + offsetY, id(mdi_med), TextAlign::BASELINE_CENTER, "󰀦");
+        }
+      } else{
+        it.print(175, 114 + offsetY, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "- ");
+        it.print(180, 114 + offsetY, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
+      }
+      
+      /* FOOTER */
+      it.strftime(355, 295, id(footer_font), TextAlign::BASELINE_RIGHT, "Updated at %d/%b/%Y %H:%M", id(sntp_time).now());
+      
+      if (id(wifisignal).has_state()) {
+        int x = 375;
+        int y = 295;
+        if (id(wifisignal).state >= -50) {
+            it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤨");
+        } else if (id(wifisignal).state  >= -60) {
+            it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤥");
+        } else if (id(wifisignal).state  >= -75) {
+            it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤢");
+        } else if (id(wifisignal).state  >= -100) {
+            it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤟");
+        } else {
+            it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤫");
+        }
+      }
