@@ -30,6 +30,12 @@ api:
 
 ota:
   password: !secret epaper_ota_password
+  
+globals:
+  - id: refresh_needed
+    type: int
+    restore_value: no
+    initial_value: '0'
 
 font:
   - file: 'fonts/Roboto-Medium.ttf'
@@ -130,30 +136,54 @@ sensor:
     id: pm25_indoor
     entity_id: fan.air_purifier
     attribute: aqi
+    on_value:
+      then:
+        - lambda: |-
+            id(refresh_needed) = 1;
 
   - platform: homeassistant
     id: temp_indoor
     entity_id: climate.woonkamer
     attribute: current_temperature
+    on_value:
+      then:
+        - lambda: |-
+            id(refresh_needed) = 1;
   
   - platform: homeassistant
     id: humid_indoor
     entity_id: climate.woonkamer
     attribute: current_humidity
+    on_value:
+      then:
+        - lambda: |-
+            id(refresh_needed) = 1;
   
   - platform: homeassistant
     id: temp_outdoor
     entity_id: weather.knmi_weidevenne
     attribute: temperature
+    on_value:
+      then:
+        - lambda: |-
+            id(refresh_needed) = 1;
   
   - platform: homeassistant
     id: humid_outdoor
     entity_id: weather.knmi_weidevenne
     attribute: humidity
+    on_value:
+      then:
+        - lambda: |-
+            id(refresh_needed) = 1;
   
   - platform: homeassistant
     id: pm25_outdoor
     entity_id: sensor.particulate_matter_2_5um_concentration
+    on_value:
+      then:
+        - lambda: |-
+            id(refresh_needed) = 1;
 
 switch:
   - platform: restart
@@ -169,12 +199,25 @@ spi:
   clk_pin: GPIO13 # D13
   mosi_pin: GPIO14 # D14 / DIN
   
+interval:
+  - interval: 900s
+    then:
+    - if:
+        condition:
+          lambda: |-
+            return id(refresh_needed) == 1;
+        then:
+          - component.update: epaperdisplay
+          - lambda: |-
+              id(refresh_needed) = 0;
+    # - display.page.show_next: epaperdisplay
+  
 display:
   - platform: waveshare_epaper
     id: epaperdisplay
     cs_pin: GPIO15 # D15
     dc_pin: GPIO27 # D27
-    update_interval: 30s
+    update_interval: never
     busy_pin: GPIO25 # D25
     reset_pin: GPIO26 # D26
     model: 4.20in
@@ -191,7 +234,7 @@ display:
       
       /* INTSIDE */
       it.print(10, 10, id(main_sensor_unit), "BINNEN");
-      it.filled_rectangle(98, 21, 285, 3);
+      it.filled_rectangle(80, 21, 303, 3);
       it.print(375, 75,  id(mdi_small), TextAlign::BASELINE_CENTER, "󰔏");
       it.print(375, 115, id(mdi_small), TextAlign::BASELINE_CENTER, "󰖎");
       
@@ -258,7 +301,6 @@ display:
       
       /* FOOTER */
       it.strftime(355, 295, id(footer_font), TextAlign::BASELINE_RIGHT, "Updated at %d/%b/%Y %H:%M", id(sntp_time).now());
-      
       if (id(wifisignal).has_state()) {
         int x = 375;
         int y = 295;
