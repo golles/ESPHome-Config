@@ -161,7 +161,7 @@ sensor:
   
   - platform: homeassistant
     id: temp_outdoor
-    entity_id: weather.knmi_weidevenne
+    entity_id: weather.knmi_purmerend
     attribute: temperature
     on_value:
       then:
@@ -170,7 +170,7 @@ sensor:
   
   - platform: homeassistant
     id: humid_outdoor
-    entity_id: weather.knmi_weidevenne
+    entity_id: weather.knmi_purmerend
     attribute: humidity
     on_value:
       then:
