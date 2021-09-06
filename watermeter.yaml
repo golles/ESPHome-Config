@@ -25,6 +25,14 @@ logger:
 
 api:
   password: !secret watermeter_api_password
+  services:
+    service: set_water_usage
+    variables:
+      meter_value: float
+    then:
+      - globals.set:
+          id: totalWaterUsage
+          value: !lambda "return meter_value;"
 
 ota:
   password: !secret watermeter_ota_password
