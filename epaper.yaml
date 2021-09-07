@@ -134,8 +134,7 @@ sensor:
 
   - platform: homeassistant
     id: pm25_indoor
-    entity_id: fan.air_purifier
-    attribute: aqi
+    entity_id: sensor.mi_air_purifier_3_3h_pm2_5
     on_value:
       then:
         - lambda: |-
