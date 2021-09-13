@@ -13,6 +13,14 @@ esphome:
   name: $devicename
   platform: ESP32
   board: esp32doit-devkit-v1
+
+api:
+  services:
+    service: refresh_display
+    then:
+      - component.update: epaperdisplay
+      - lambda: |-
+          id(refresh_needed) = 0;
   
 globals:
   - id: refresh_needed
