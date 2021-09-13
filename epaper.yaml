@@ -1,35 +1,18 @@
 substitutions:
   devicename: epaper
   upper_devicename: Epaper
+  static_ip: !secret epaper_static_ip
+  wifi_ap_password: !secret ap_password
+  api_password: !secret epaper_api_password
+  ota_password: !secret epaper_ota_password
+    
+packages:
+  device_base: !include device_base.yaml
 
 esphome:
   name: $devicename
   platform: ESP32
   board: esp32doit-devkit-v1
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  manual_ip:
-    static_ip: !secret epaper_static_ip
-    gateway: !secret gateway
-    subnet: !secret subnet 
-    dns1: !secret dns1
-    dns2: !secret dns2
-
-  ap:
-    ssid: ${upper_devicename}
-    password: !secret ap_password
-
-captive_portal:
-
-logger:
-
-api:
-  password: !secret epaper_api_password
-
-ota:
-  password: !secret epaper_ota_password
   
 globals:
   - id: refresh_needed
@@ -118,20 +101,7 @@ font:
       '󰀦' # mdi-alert
       ]
 
-time:
-  - platform: sntp
-    id: sntp_time
-
 sensor:
-  - platform: wifi_signal
-    id: wifisignal
-    name: ${upper_devicename} wifi signaal
-    update_interval: 10s
-
-  - platform: uptime
-    id: ${devicename}_esphome_uptime
-    name: ${upper_devicename} uptime
-
   - platform: homeassistant
     id: pm25_indoor
     entity_id: sensor.mi_air_purifier_3_3h_pm2_5
@@ -183,16 +153,6 @@ sensor:
       then:
         - lambda: |-
             id(refresh_needed) = 1;
-
-switch:
-  - platform: restart
-    id: ${devicename}_esphome_restart
-    name: ${upper_devicename} herstart
-
-text_sensor:
-  - platform: version
-    id: ${devicename}_esphome_version
-    name: ${upper_devicename} version
 
 spi:
   clk_pin: GPIO13 # D13
@@ -299,17 +259,17 @@ display:
       }
       
       /* FOOTER */
-      it.strftime(355, 295, id(footer_font), TextAlign::BASELINE_RIGHT, "Updated at %d/%b/%Y %H:%M", id(sntp_time).now());
-      if (id(wifisignal).has_state()) {
+      it.strftime(355, 295, id(footer_font), TextAlign::BASELINE_RIGHT, "Updated at %d/%b/%Y %H:%M", id(homeassistant_time).now());
+      if (id(${devicename}_esphome_wifi_signal).has_state()) {
         int x = 375;
         int y = 295;
-        if (id(wifisignal).state >= -50) {
+        if (id(${devicename}_esphome_wifi_signal).state >= -50) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤨");
-        } else if (id(wifisignal).state  >= -60) {
+        } else if (id(${devicename}_esphome_wifi_signal).state  >= -60) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤥");
-        } else if (id(wifisignal).state  >= -75) {
+        } else if (id(${devicename}_esphome_wifi_signal).state  >= -75) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤢");
-        } else if (id(wifisignal).state  >= -100) {
+        } else if (id(${devicename}_esphome_wifi_signal).state  >= -100) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤟");
         } else {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤫");

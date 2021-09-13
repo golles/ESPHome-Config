@@ -1,30 +1,20 @@
 substitutions:
   devicename: watermeter
   upper_devicename: Watermeter
+  static_ip: !secret watermeter_static_ip
+  wifi_ap_password: !secret ap_password
+  api_password: !secret watermeter_api_password
+  ota_password: !secret watermeter_ota_password
+    
+packages:
+  device_base: !include device_base.yaml
 
 esphome:
   name: $devicename
   platform: ESP8266
   board: d1_mini
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  manual_ip:
-    static_ip: !secret watermeter_static_ip
-    gateway: !secret gateway
-    subnet: !secret subnet 
-
-  ap:
-    ssid: ${upper_devicename}
-    password: !secret ap_password
-
-captive_portal:
-
-logger:
-
 api:
-  password: !secret watermeter_api_password
   services:
     service: set_water_usage
     variables:
@@ -33,9 +23,6 @@ api:
       - globals.set:
           id: totalWaterUsage
           value: !lambda "return meter_value;"
-
-ota:
-  password: !secret watermeter_ota_password
 
 globals:
   - id: totalWaterUsage
@@ -65,22 +52,3 @@ sensor:
         id(totalWaterUsage) += 0.001;
       }
       return id(totalWaterUsage);
-  
-  - platform: wifi_signal
-    id: ${devicename}_esphome_wifi_signal
-    name: ${upper_devicename} wifi signaal
-    update_interval: 10s
-
-  - platform: uptime
-    id: ${devicename}_esphome_uptime
-    name: ${upper_devicename} uptime
-
-switch:
-  - platform: restart
-    id: ${devicename}_esphome_restart
-    name: ${upper_devicename} herstart
-
-text_sensor:
-  - platform: version
-    id: ${devicename}_esphome_version
-    name: ${upper_devicename} version

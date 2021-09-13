@@ -1,44 +1,20 @@
 substitutions:
   devicename: planthub
   upper_devicename: PlantHub
+  static_ip: !secret planthub_static_ip
+  wifi_ap_password: !secret ap_password
+  api_password: !secret planthub_api_password
+  ota_password: !secret planthub_ota_password
+    
+packages:
+  device_base: !include device_base.yaml
 
 esphome:
   name: $devicename
   platform: ESP32
   board: esp32doit-devkit-v1
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  manual_ip:
-    static_ip: !secret planthub_static_ip
-    gateway: !secret gateway
-    subnet: !secret subnet 
-
-  ap:
-    ssid: ${upper_devicename}
-    password: !secret ap_password
-
-captive_portal:
-
-logger:
-
-api:
-  password: !secret planthub_api_password
-
-ota:
-  password: !secret planthub_ota_password
-
-sensor:  
-  - platform: wifi_signal
-    id: ${devicename}_esphome_wifi_signal
-    name: ${upper_devicename} wifi signaal
-    update_interval: 10s
-
-  - platform: uptime
-    id: ${devicename}_esphome_uptime
-    name: ${upper_devicename} uptime
-    
+sensor:    
   - platform: xiaomi_hhccjcy01
     mac_address: 'C4:7C:8D:6C:AB:C6'
     temperature:
@@ -104,16 +80,6 @@ sensor:
       name: Plant AE Illuminance
     conductivity:
       name: Plant AE Soil Conductivity
-
-switch:
-  - platform: restart
-    id: ${devicename}_esphome_restart
-    name: ${upper_devicename} herstart
-
-text_sensor:
-  - platform: version
-    id: ${devicename}_esphome_version
-    name: ${upper_devicename} version
 
 esp32_ble_tracker:
       

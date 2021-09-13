@@ -1,6 +1,13 @@
 substitutions:
   devicename: particulate_matter
   upper_devicename: Particulate matter
+  static_ip: !secret particulate_matter_static_ip
+  wifi_ap_password: !secret ap_password
+  api_password: !secret particulate_matter_api_password
+  ota_password: !secret particulate_matter_ota_password
+    
+packages:
+  device_base: !include device_base.yaml
 
 esphome:
   name: $devicename
@@ -8,28 +15,9 @@ esphome:
   board: nodemcuv2
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
   manual_ip:
-    static_ip: !secret particulate_matter_static_ip
-    gateway: !secret gateway
-    subnet: !secret subnet
     dns1: !secret dns1 # Without DNS the device can't find any host on the internet.
     dns2: !secret dns2
-
-  ap:
-    ssid: ${upper_devicename}
-    password: !secret ap_password
-
-captive_portal:
-
-logger:
-
-api:
-  password: !secret particulate_matter_api_password
-
-ota:
-  password: !secret particulate_matter_ota_password
 
 http_request:
   useragent: esphome/${devicename}
@@ -45,16 +33,6 @@ i2c: # Enable i2c for BME280
   scl: D4
 
 sensor:  
-  - platform: wifi_signal
-    id: ${devicename}_esphome_wifi_signal
-    name: ${upper_devicename} wifi signaal
-    update_interval: 60s
-
-  - platform: uptime
-    id: ${devicename}_esphome_uptime
-    name: ${upper_devicename} uptime
-    update_interval: 60s
-  
   - platform: sds011
     pm_10_0:
       id: ${devicename}_pm10
@@ -88,25 +66,11 @@ sensor:
       accuracy_decimals: 2
     update_interval: 5min
 
-binary_sensor:
-  - platform: status
-    id: ${devicename}_esphome_status
-    name: ${upper_devicename} status
-
-switch:
-  - platform: restart
-    id: ${devicename}_esphome_restart
-    name: ${upper_devicename} restart
-
 text_sensor:
   - platform: version
     id: ${devicename}_esphome_short_version
     hide_timestamp: True
     internal: true # Don't expose, only use in API calls.
-    
-  - platform: version
-    id: ${devicename}_esphome_version
-    name: ${upper_devicename} version
 
 script:
   # API descriptions can be found here: https://github.com/opendata-stuttgart/meta/wiki/EN-APIs
