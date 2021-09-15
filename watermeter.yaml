@@ -27,8 +27,8 @@ api:
 globals:
   - id: totalWaterUsage
     type: float
-    restore_value: no       # When updating below value, change this to no for 1 run.
-    initial_value: '245.109' # 31-8-2021 12:00
+    restore_value: yes       # When updating below value, change this to no for 1 run.
+    initial_value: '246.969' # 15-9-2021 14:30
 
 sensor:
   - platform: pulse_counter
