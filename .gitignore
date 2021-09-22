@@ -9,3 +9,6 @@
 **/partitions.csv
 **/platformio.ini
 /secrets.yaml
+
+# Proxy secrets file
+!**/packages/secrets.yaml

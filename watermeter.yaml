@@ -7,7 +7,7 @@ substitutions:
   ota_password: !secret watermeter_ota_password
     
 packages:
-  device_base: !include device_base.yaml
+  device_base: !include packages/device_base.yaml
 
 esphome:
   name: $devicename
