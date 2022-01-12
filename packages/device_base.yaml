@@ -39,7 +39,7 @@ binary_sensor:
     id: ${devicename}_esphome_status
     name: ${upper_devicename} status
     
-switch:
+button:
   - platform: restart
     id: ${devicename}_esphome_restart
     name: ${upper_devicename} herstart
