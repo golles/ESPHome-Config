@@ -28,7 +28,7 @@ globals:
   - id: totalWaterUsage
     type: float
     restore_value: yes       # When updating below value, change this to no for 1 run.
-    initial_value: '246.969' # 15-9-2021 14:30
+    initial_value: '263.603' # 13-1-2022 22:00
 
 sensor:
   - platform: pulse_counter
@@ -46,6 +46,7 @@ sensor:
     icon: mdi:water
     update_interval: 1s
     unit_of_measurement: m³
+    state_class: total_increasing
     accuracy_decimals: 3
     lambda: |-
       if (id(watermeter_pulse).state >= 1) {
