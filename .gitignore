@@ -12,3 +12,9 @@
 
 # Proxy secrets file
 !**/packages/secrets.yaml
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class

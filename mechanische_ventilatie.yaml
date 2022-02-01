@@ -1,0 +1,52 @@
+substitutions:
+  devicename: mechanische_ventilatie
+  upper_devicename: Mechanische ventilatie
+  static_ip: !secret mechanische_ventilatie_static_ip
+  wifi_ap_password: !secret ap_password
+  api_password: !secret mechanische_ventilatie_api_password
+  ota_password: !secret mechanische_ventilatie_ota_password
+    
+packages:
+  device_base: !include packages/device_base.yaml
+
+esphome:
+  name: $devicename
+  
+esp32:
+  board: esp32doit-devkit-v1
+  framework:
+    type: arduino
+
+external_components:
+  - source: custom_components
+
+spi:
+  clk_pin: GPIO14
+  mosi_pin: GPIO13
+  miso_pin: GPIO12
+
+nrf905:
+  id: nrf905_rf
+  cs_pin: GPIO15
+  am_pin: GPIO32
+  cd_pin: GPIO33
+  ce_pin: GPIO27
+  dr_pin: GPIO35
+  pwr_pin: GPIO26
+  txen_pin: GPIO25
+
+fan:
+  - platform: zehnder
+    id: ${devicename}_fan
+    name: ${upper_devicename}
+    nrf905: nrf905_rf
+    update_interval: 10s
+
+button:
+  - platform: template
+    id: ${devicename}_high_15
+    name: ${upper_devicename} High 15
+    on_press:
+      then:
+        lambda: |-
+          id(${devicename}_fan).setSpeed(3, 15);
