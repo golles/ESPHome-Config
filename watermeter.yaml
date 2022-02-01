@@ -28,7 +28,7 @@ globals:
   - id: totalWaterUsage
     type: float
     restore_value: yes       # When updating below value, change this to no for 1 run.
-    initial_value: '263.603' # 13-1-2022 22:00
+    initial_value: '264.904' # 23-1-2022 20:30
 
 sensor:
   - platform: pulse_counter
@@ -39,7 +39,12 @@ sensor:
     unit_of_measurement: L
     filters:
       - multiply: 0.016666667
-  
+      - lambda: |-
+          if (x > 0) {
+            id(totalWaterUsage) += 0.001;
+          }
+          return 1;
+
   - platform: template
     id: watermeter_total
     name: ${upper_devicename} totaal
@@ -49,7 +54,4 @@ sensor:
     state_class: total_increasing
     accuracy_decimals: 3
     lambda: |-
-      if (id(watermeter_pulse).state >= 1) {
-        id(totalWaterUsage) += 0.001;
-      }
       return id(totalWaterUsage);
