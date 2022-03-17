@@ -20,6 +20,16 @@ esp32:
 external_components:
   - source: custom_components
 
+api:
+  services:
+    - service: set_speed_timer
+      variables:
+        speed: int
+        timer: int
+      then:
+        - lambda: |-
+            id(${devicename}_fan).setSpeed(speed, timer);
+
 spi:
   clk_pin: GPIO14
   mosi_pin: GPIO13
@@ -45,8 +55,24 @@ fan:
 button:
   - platform: template
     id: ${devicename}_high_15
-    name: ${upper_devicename} High 15
+    name: ${upper_devicename} 15 minuten hoog
     on_press:
       then:
         lambda: |-
-          id(${devicename}_fan).setSpeed(3, 15);
+          id(${devicename}_fan).setSpeed(4, 15);
+
+  - platform: template
+    id: ${devicename}_high_30
+    name: ${upper_devicename} 30 minuten hoog
+    on_press:
+      then:
+        lambda: |-
+          id(${devicename}_fan).setSpeed(4, 30);
+
+  - platform: template
+    id: ${devicename}_high_60
+    name: ${upper_devicename} 60 minuten hoog
+    on_press:
+      then:
+        lambda: |-
+          id(${devicename}_fan).setSpeed(4, 60);
