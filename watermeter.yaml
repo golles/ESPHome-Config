@@ -32,18 +32,27 @@ globals:
 
 sensor:
   - platform: pulse_counter
-    pin: D4
+    pin: D2
     id: watermeter_pulse
     name: ${upper_devicename} pulse
     update_interval: 1s
-    unit_of_measurement: L
+    unit_of_measurement: L/min
+    state_class: measurement
     filters:
-      - multiply: 0.016666667
       - lambda: |-
           if (x > 0) {
             id(totalWaterUsage) += 0.001;
           }
-          return 1;
+          return x * (60.0 / 1000.0);
+    total:
+      id: sensor_pulse_meter_total
+      name: ${upper_devicename} pulse totaal
+      icon: mdi:cube-outline
+      state_class: total_increasing
+      unit_of_measurement: m³
+      accuracy_decimals: 3
+      filters:
+        - multiply: 0.001
 
   - platform: template
     id: watermeter_total
