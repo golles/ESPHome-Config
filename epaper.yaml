@@ -28,6 +28,9 @@ globals:
     restore_value: no
     initial_value: '0'
 
+bluetooth_proxy:
+  active: true
+
 font:
   - file: 'fonts/Roboto-Medium.ttf'
     id: roboto_med_30
