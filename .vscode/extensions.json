@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "esphome.esphome-vscode",
+    "github.vscode-pull-request-github",
+    "redhat.vscode-yaml"
+  ]
+}
