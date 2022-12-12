@@ -2,11 +2,9 @@
 
 [![GitHub Repo stars][stars-shield]][stars]
 [![License][license-shield]](LICENSE)
-
 [![GitHub Activity][commits-shield]][commits]
 [![CI Workflow][ci-workflow-shield]][ci-workflow]
-
-![Project Maintenance][maintenance-shield]
+[![Project Maintenance][maintenance-shield]][maintainer]
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
 ## Epaper
@@ -30,6 +28,7 @@ todo...
 [commits-shield]: https://img.shields.io/github/commit-activity/y/golles/ESPHome-Config.svg?style=for-the-badge
 [commits]: https://github.com/golles/ESPHome-Config/commits/main
 [license-shield]: https://img.shields.io/github/license/golles/ESPHome-Config.svg?style=for-the-badge
+[maintainer]: https://github.com/golles
 [maintenance-shield]: https://img.shields.io/badge/maintainer-golles-blue.svg?style=for-the-badge
 [stars-shield]: https://img.shields.io/github/stars/golles/ESPHome-Config?style=for-the-badge
 [stars]: https://github.com/golles/ESPHome-Config/stargazers
