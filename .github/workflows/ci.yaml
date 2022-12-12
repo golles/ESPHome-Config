@@ -1,5 +1,6 @@
 name: CI
 
+# yamllint disable-line rule:truthy
 on:
   push:
     branches:
@@ -7,18 +8,25 @@ on:
   pull_request: ~
 
 jobs:
-  verify:
-    name: Verify
+  code-style:
+    name: Code style
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Run prettier
+        uses: creyD/prettier_action@v4.2
+        with:
+          prettier_options: --check .
+
       - name: Run yamllint
-        run: |
-          yamllint .
+        uses: frenck/action-yamllint@v1
 
   mock-secrets:
     name: Mocking secrets
     runs-on: ubuntu-latest
-    needs: verify
+    needs: code-style
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
