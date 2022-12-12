@@ -1,5 +1,6 @@
 name: Update copyright year(s) in license file
 
+# yamllint disable-line rule:truthy
 on:
   schedule:
     - cron: "0 1 1 1 *"
