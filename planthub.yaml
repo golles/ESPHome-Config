@@ -1,11 +1,11 @@
 substitutions:
   devicename: planthub
-  upper_devicename: PlantHub
+  name: PlantHub
   static_ip: !secret planthub_static_ip
   wifi_ap_password: !secret ap_password
   api_password: !secret planthub_api_password
   ota_password: !secret planthub_ota_password
-    
+
 packages:
   device_base: !include packages/device_base.yaml
 
@@ -13,6 +13,6 @@ esphome:
   name: $devicename
   platform: ESP32
   board: esp32doit-devkit-v1
-  
+
 bluetooth_proxy:
   active: true

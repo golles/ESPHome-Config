@@ -1,11 +1,11 @@
 substitutions:
   devicename: watermeter
-  upper_devicename: Watermeter
+  name: Watermeter
   static_ip: !secret watermeter_static_ip
   wifi_ap_password: !secret ap_password
   api_password: !secret watermeter_api_password
   ota_password: !secret watermeter_ota_password
-    
+
 packages:
   device_base: !include packages/device_base.yaml
 
@@ -27,14 +27,14 @@ api:
 globals:
   - id: totalWaterUsage
     type: float
-    restore_value: yes       # When updating below value, change this to no for 1 run.
-    initial_value: '264.904' # 23-1-2022 20:30
+    restore_value: true # When updating below value, change this to no for 1 run.
+    initial_value: "264.904" # 23-1-2022 20:30
 
 sensor:
   - platform: pulse_counter
     pin: D2
     id: watermeter_pulse
-    name: ${upper_devicename} pulse
+    name: ${name} pulse
     update_interval: 1s
     unit_of_measurement: L/min
     state_class: measurement
@@ -46,7 +46,7 @@ sensor:
           return x * (60.0 / 1000.0);
     total:
       id: sensor_pulse_meter_total
-      name: ${upper_devicename} pulse totaal
+      name: ${name} pulse totaal
       icon: mdi:cube-outline
       state_class: total_increasing
       unit_of_measurement: m³
@@ -56,7 +56,7 @@ sensor:
 
   - platform: template
     id: watermeter_total
-    name: ${upper_devicename} totaal
+    name: ${name} totaal
     icon: mdi:water
     update_interval: 1s
     unit_of_measurement: m³

@@ -1,11 +1,11 @@
 substitutions:
   devicename: particulate_matter
-  upper_devicename: Particulate matter
+  name: Particulate matter
   static_ip: !secret particulate_matter_static_ip
   wifi_ap_password: !secret ap_password
   api_password: !secret particulate_matter_api_password
   ota_password: !secret particulate_matter_ota_password
-    
+
 packages:
   device_base: !include packages/device_base.yaml
 
@@ -32,18 +32,18 @@ i2c: # Enable i2c for BME280
   sda: D3
   scl: D4
 
-sensor:  
+sensor:
   - platform: sds011
     pm_10_0:
       id: ${devicename}_pm10
-      name: ${upper_devicename} <10.0µm Concentration
+      name: ${name} <10.0µm Concentration
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that pm10 is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_sds011_data
     pm_2_5:
       id: ${devicename}_pm25
-      name: ${upper_devicename} <2.5µm Concentration
+      name: ${name} <2.5µm Concentration
       accuracy_decimals: 2
     update_interval: 30min # First deploy config with 0min, see https://github.com/esphome/issues/issues/1144 - you might need to do this a few times.
 
@@ -51,25 +51,25 @@ sensor:
     address: 0x76
     humidity:
       id: ${devicename}_humidity
-      name: ${upper_devicename} humidity
+      name: ${name} humidity
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that humidity is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_bme280_data
     pressure:
       id: ${devicename}_pressure
-      name: ${upper_devicename} pressure
+      name: ${name} pressure
       accuracy_decimals: 2
     temperature:
       id: ${devicename}_temperature
-      name: ${upper_devicename} temperature
+      name: ${name} temperature
       accuracy_decimals: 2
     update_interval: 5min
 
 text_sensor:
   - platform: version
     id: ${devicename}_esphome_short_version
-    hide_timestamp: True
+    hide_timestamp: true
     internal: true # Don't expose, only use in API calls.
 
 script:
@@ -80,7 +80,7 @@ script:
           url: https://api.sensor.community/v1/push-sensor-data/
           headers:
             Content-Type: application/json
-            X-Pin: 1  # This tells Luftdaten that it is SDS011 data.
+            X-Pin: 1 # This tells Luftdaten that it is SDS011 data.
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
             root["software_version"] = id(${devicename}_esphome_short_version).state;
@@ -134,7 +134,7 @@ script:
           url: https://api.sensor.community/v1/push-sensor-data/
           headers:
             Content-Type: application/json
-            X-Pin: 11  # This tells Luftdaten that it is BME280 data.
+            X-Pin: 11 # This tells Luftdaten that it is BME280 data.
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
             root["software_version"] = id(${devicename}_esphome_short_version).state;

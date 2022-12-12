@@ -6,12 +6,12 @@ wifi:
     gateway: !secret gateway
     subnet: !secret subnet
   ap:
-    ssid: ${upper_devicename}
+    ssid: ${name}
     password: ${wifi_ap_password}
 
 api:
   password: ${api_password}
-  
+
 ota:
   password: ${ota_password}
 
@@ -23,28 +23,28 @@ time:
   - platform: homeassistant
     id: homeassistant_time
     timezone: Europe/Amsterdam
-    
+
 sensor:
   - platform: wifi_signal
     id: ${devicename}_esphome_wifi_signal
-    name: ${upper_devicename} wifi signaal
+    name: ${name} wifi signaal
     update_interval: 10s
 
   - platform: uptime
     id: ${devicename}_esphome_uptime
-    name: ${upper_devicename} uptime
+    name: ${name} uptime
 
 binary_sensor:
   - platform: status
     id: ${devicename}_esphome_status
-    name: ${upper_devicename} status
-    
+    name: ${name} status
+
 button:
   - platform: restart
     id: ${devicename}_esphome_restart
-    name: ${upper_devicename} herstart
+    name: ${name} herstart
 
 text_sensor:
   - platform: version
     id: ${devicename}_esphome_version
-    name: ${upper_devicename} version
+    name: ${name} version

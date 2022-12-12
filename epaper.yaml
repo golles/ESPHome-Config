@@ -1,11 +1,11 @@
 substitutions:
   devicename: epaper
-  upper_devicename: Epaper
+  name: Epaper
   static_ip: !secret epaper_static_ip
   wifi_ap_password: !secret ap_password
   api_password: !secret epaper_api_password
   ota_password: !secret epaper_ota_password
-    
+
 packages:
   device_base: !include packages/device_base.yaml
 
@@ -21,95 +21,337 @@ api:
       - component.update: epaperdisplay
       - lambda: |-
           id(refresh_needed) = 0;
-  
+
 globals:
   - id: refresh_needed
     type: int
-    restore_value: no
-    initial_value: '0'
+    restore_value: false
+    initial_value: "0"
 
 bluetooth_proxy:
   active: true
 
 font:
-  - file: 'fonts/Roboto-Medium.ttf'
+  - file: "fonts/Roboto-Medium.ttf"
     id: roboto_med_30
     size: 30
-  - file: 'fonts/Roboto-Regular.ttf'
+  - file: "fonts/Roboto-Regular.ttf"
     id: footer_font
     size: 15
     glyphs:
-      ['&', '@', '!', ',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
-       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
-       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
-       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-       'u', 'v', 'w', 'x', 'y', 'z','å', 'ä', 'ö', '/','º','µ','³']
+      [
+        "&",
+        "@",
+        "!",
+        ",",
+        ".",
+        '"',
+        "%",
+        "(",
+        ")",
+        "+",
+        "-",
+        "_",
+        ":",
+        "°",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        " ",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "å",
+        "ä",
+        "ö",
+        "/",
+        "º",
+        "µ",
+        "³",
+      ]
 
-  - file: 'fonts/Roboto-Regular.ttf'
+  - file: "fonts/Roboto-Regular.ttf"
     id: main_sensor_unit
     size: 20
     glyphs:
-      ['&', '@', '!', ',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
-       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
-       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
-       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-       'u', 'v', 'w', 'x', 'y', 'z','å', 'ä', 'ö', '/','º','µ','³']
-       
-  - file: 'fonts/Roboto-Medium.ttf'
+      [
+        "&",
+        "@",
+        "!",
+        ",",
+        ".",
+        '"',
+        "%",
+        "(",
+        ")",
+        "+",
+        "-",
+        "_",
+        ":",
+        "°",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        " ",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "å",
+        "ä",
+        "ö",
+        "/",
+        "º",
+        "µ",
+        "³",
+      ]
+
+  - file: "fonts/Roboto-Medium.ttf"
     id: sub_sensor_font
     size: 30
     glyphs:
-      ['&', '@', '!', ',', '.', '"', '%', '(', ')', '+', '-', '_', ':', '°', '0',
-       '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
-       'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-       'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
-       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-       'u', 'v', 'w', 'x', 'y', 'z','å', 'ä', 'ö', '/','º','µ','³']
-  
-  - file: 'fonts/Roboto-Bold.ttf'
+      [
+        "&",
+        "@",
+        "!",
+        ",",
+        ".",
+        '"',
+        "%",
+        "(",
+        ")",
+        "+",
+        "-",
+        "_",
+        ":",
+        "°",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        " ",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "å",
+        "ä",
+        "ö",
+        "/",
+        "º",
+        "µ",
+        "³",
+      ]
+
+  - file: "fonts/Roboto-Bold.ttf"
     id: main_sensor_font
     size: 80
-  
-  - file: 'fonts/materialdesignicons-webfont.ttf'
-    id:  mdi_small
+
+  - file: "fonts/materialdesignicons-webfont.ttf"
+    id: mdi_small
     size: 31
-    glyphs: [
+    glyphs:
       # Wifi
-      '󰤫', # mdi-wifi-strength-alert-outline
-      '󰤟', # mdi-wifi-strength-1
-      '󰤢', # mdi-wifi-strength-2
-      '󰤥', # mdi-wifi-strength-3
-      '󰤨', # mdi-wifi-strength-4
-      '󰔏', # mdi-thermometer
-      '󰖎' # mdi-water-percent
+      [
+        "󰤫", # mdi-wifi-strength-alert-outline
+        "󰤟", # mdi-wifi-strength-1
+        "󰤢", # mdi-wifi-strength-2
+        "󰤥", # mdi-wifi-strength-3
+        "󰤨", # mdi-wifi-strength-4
+        "󰔏", # mdi-thermometer
+        "󰖎", # mdi-water-percent
       ]
 
-  - file: 'fonts/materialdesignicons-webfont.ttf'
-    id:  mdi_wifi
+  - file: "fonts/materialdesignicons-webfont.ttf"
+    id: mdi_wifi
     size: 20
-    glyphs: [
+    glyphs:
       # Wifi
-      '󰤫', # mdi-wifi-strength-alert-outline
-      '󰤟', # mdi-wifi-strength-1
-      '󰤢', # mdi-wifi-strength-2
-      '󰤥', # mdi-wifi-strength-3
-      '󰤨'  # mdi-wifi-strength-4
-
+      [
+        "󰤫", # mdi-wifi-strength-alert-outline
+        "󰤟", # mdi-wifi-strength-1
+        "󰤢", # mdi-wifi-strength-2
+        "󰤥", # mdi-wifi-strength-3
+        "󰤨", # mdi-wifi-strength-4
       ]
 
-  - file: 'fonts/materialdesignicons-webfont.ttf'
-    id:  mdi_med
+  - file: "fonts/materialdesignicons-webfont.ttf"
+    id: mdi_med
     size: 33
-    glyphs: [
+    glyphs:
       # Wifi
-      '󰤫', # mdi-wifi-strength-alert-outline
-      '󰤟', # mdi-wifi-strength-1
-      '󰤢', # mdi-wifi-strength-2
-      '󰤥', # mdi-wifi-strength-3
-      '󰤨', # mdi-wifi-strength-4
-      '󰀦' # mdi-alert
+      [
+        "󰤫", # mdi-wifi-strength-alert-outline
+        "󰤟", # mdi-wifi-strength-1
+        "󰤢", # mdi-wifi-strength-2
+        "󰤥", # mdi-wifi-strength-3
+        "󰤨", # mdi-wifi-strength-4
+        "󰀦", # mdi-alert
       ]
 
 sensor:
@@ -129,7 +371,7 @@ sensor:
       then:
         - lambda: |-
             id(refresh_needed) = 1;
-  
+
   - platform: homeassistant
     id: humid_indoor
     entity_id: climate.woonkamer
@@ -138,7 +380,7 @@ sensor:
       then:
         - lambda: |-
             id(refresh_needed) = 1;
-  
+
   - platform: homeassistant
     id: temp_outdoor
     entity_id: weather.knmi_purmerend
@@ -147,7 +389,7 @@ sensor:
       then:
         - lambda: |-
             id(refresh_needed) = 1;
-  
+
   - platform: homeassistant
     id: humid_outdoor
     entity_id: weather.knmi_purmerend
@@ -156,7 +398,7 @@ sensor:
       then:
         - lambda: |-
             id(refresh_needed) = 1;
-  
+
   - platform: homeassistant
     id: pm25_outdoor
     entity_id: sensor.particulate_matter_2_5um_concentration
@@ -168,20 +410,20 @@ sensor:
 spi:
   clk_pin: GPIO13 # D13
   mosi_pin: GPIO14 # D14 / DIN
-  
+
 interval:
   - interval: 900s
     then:
-    - if:
-        condition:
-          lambda: |-
-            return id(refresh_needed) == 1;
-        then:
-          - component.update: epaperdisplay
-          - lambda: |-
-              id(refresh_needed) = 0;
+      - if:
+          condition:
+            lambda: |-
+              return id(refresh_needed) == 1;
+          then:
+            - component.update: epaperdisplay
+            - lambda: |-
+                id(refresh_needed) = 0;
     # - display.page.show_next: epaperdisplay
-  
+
 display:
   - platform: waveshare_epaper
     id: epaperdisplay
@@ -192,22 +434,22 @@ display:
     reset_pin: GPIO26 # D26
     model: 4.20in
     lambda: |-
-      
+
       int pm25_danger_thres = 40;
-      
+
       float indoor_temp = id(temp_indoor).state;
       float indoor_humid = id(humid_indoor).state;
       float indoor_pm25 = id(pm25_indoor).state;
       float outdoor_temp = id(temp_outdoor).state;
       float outdoor_humid = id(humid_outdoor).state;
       float outdoor_pm25 = id(pm25_outdoor).state;
-      
+
       /* INTSIDE */
       it.print(10, 10, id(main_sensor_unit), "BINNEN");
       it.filled_rectangle(80, 21, 303, 3);
       it.print(375, 75,  id(mdi_small), TextAlign::BASELINE_CENTER, "󰔏");
       it.print(375, 115, id(mdi_small), TextAlign::BASELINE_CENTER, "󰖎");
-      
+
       if (indoor_temp > -100 && indoor_temp < 100) {
         it.printf(357, 75, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, "%.1fºc", indoor_temp);
       } else {
@@ -218,7 +460,7 @@ display:
       } else {
         it.print(357, 115, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, " -  %");
       }
-      
+
       if (indoor_pm25 >= 0 && indoor_pm25 < 255) {
         if (indoor_pm25 > 99) {
           it.printf(205, 114, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "%.0f", indoor_pm25);
@@ -234,14 +476,14 @@ display:
         it.print(175, 114, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "- ");
         it.print(180, 114, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
       }
-      
+
       /* OUTSIDE */
       int offsetY = 137;
       it.print(10, 10 + offsetY, id(main_sensor_unit), "BUITEN");
       it.filled_rectangle(78, 21 + offsetY, 305, 3);
       it.print(375, 75 + offsetY,  id(mdi_small), TextAlign::BASELINE_CENTER, "󰔏");
       it.print(375, 115 + offsetY, id(mdi_small), TextAlign::BASELINE_CENTER, "󰖎");
-      
+
       if (outdoor_temp > -100 && outdoor_temp < 100) {
         it.printf(357, 75 + offsetY, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, "%.1fºc", outdoor_temp);
       } else {
@@ -252,7 +494,7 @@ display:
       } else {
         it.print(357, 115 + offsetY, id(sub_sensor_font), TextAlign::BASELINE_RIGHT, " -  %");
       }
-      
+
       if (outdoor_pm25 >= 0 && outdoor_pm25 < 255) {
         if (outdoor_pm25 > 99) {
           it.printf(205, 114 + offsetY, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "%.0f", outdoor_pm25);
@@ -268,7 +510,7 @@ display:
         it.print(175, 114 + offsetY, id(main_sensor_font), TextAlign::BASELINE_RIGHT , "- ");
         it.print(180, 114 + offsetY, id(main_sensor_unit),TextAlign::BASELINE_LEFT, "µg/m³");
       }
-      
+
       /* FOOTER */
       it.strftime(355, 295, id(footer_font), TextAlign::BASELINE_RIGHT, "Updated at %d/%b/%Y %H:%M", id(homeassistant_time).now());
       if (id(${devicename}_esphome_wifi_signal).has_state()) {
