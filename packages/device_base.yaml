@@ -10,7 +10,8 @@ wifi:
     password: ${wifi_ap_password}
 
 api:
-  password: ${api_password}
+  encryption:
+    key: ${encryption_key}
 
 ota:
   password: ${ota_password}

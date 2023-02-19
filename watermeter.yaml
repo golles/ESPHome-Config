@@ -3,8 +3,8 @@ substitutions:
   name: Watermeter
   static_ip: !secret watermeter_static_ip
   wifi_ap_password: !secret ap_password
-  api_password: !secret watermeter_api_password
   ota_password: !secret watermeter_ota_password
+  encryption_key: !secret watermeter_encryption_key
 
 packages:
   device_base: !include packages/device_base.yaml
@@ -27,7 +27,7 @@ api:
 globals:
   - id: totalWaterUsage
     type: float
-    restore_value: true # When updating below value, change this to no for 1 run.
+    restore_value: true # When updating below value, change this to false for 1 run.
     initial_value: "264.904" # 23-1-2022 20:30
 
 sensor:
