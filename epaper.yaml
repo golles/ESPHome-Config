@@ -3,8 +3,8 @@ substitutions:
   name: Epaper
   static_ip: !secret epaper_static_ip
   wifi_ap_password: !secret ap_password
-  api_password: !secret epaper_api_password
   ota_password: !secret epaper_ota_password
+  encryption_key: !secret epaper_encryption_key
 
 packages:
   device_base: !include packages/device_base.yaml

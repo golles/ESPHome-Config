@@ -56,6 +56,9 @@ jobs:
               elif [[ $secret == subnet ]]
               then
                   value="255.255.255.255"
+              elif [[ $secret == *_encryption_key ]]
+              then
+                  value="rE4PuSP78S3CzXZXjZvFYTvGg4yIi11rwsLngv8fQ7c=" # Random base64 encoded string.
               fi
 
               if [[ ! $(grep -R "${secret}" secrets.yaml) ]]
