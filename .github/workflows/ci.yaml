@@ -109,5 +109,5 @@ jobs:
       - name: Upload firmware
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: ${{ matrix.configuration }}
+          name: ${{ steps.esphome-build.outputs.name }}
           path: output
