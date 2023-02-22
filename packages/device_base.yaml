@@ -28,7 +28,7 @@ time:
 sensor:
   - platform: wifi_signal
     id: ${devicename}_esphome_wifi_signal
-    name: ${name} wifi signaal
+    name: ${name} wifi signal
     update_interval: 10s
 
   - platform: uptime
@@ -43,7 +43,7 @@ binary_sensor:
 button:
   - platform: restart
     id: ${devicename}_esphome_restart
-    name: ${name} herstart
+    name: ${name} restart
 
 text_sensor:
   - platform: version

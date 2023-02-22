@@ -18,7 +18,7 @@ esp32:
     type: arduino
 
 external_components:
-  - source: custom_components
+  - source: components
 
 api:
   services:
