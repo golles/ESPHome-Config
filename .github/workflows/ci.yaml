@@ -97,6 +97,7 @@ jobs:
 
       - name: Build ESPHome firmware
         uses: esphome/build-action@v1
+        id: esphome-build
         with:
           yaml_file: ${{ matrix.configuration }}
 
