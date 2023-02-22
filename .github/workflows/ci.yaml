@@ -67,7 +67,8 @@ jobs:
               fi
           done
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload mocked secrets
+        uses: actions/upload-artifact@v3
         with:
           name: secrets
           path: secrets.yaml
@@ -89,11 +90,24 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - name: Download mocked secret
+        uses: actions/download-artifact@v3
         with:
           name: secrets
 
-      - name: Build ESPHome configuration
+      - name: Build ESPHome firmware
         uses: esphome/build-action@v1
+        id: esphome-build
         with:
           yaml_file: ${{ matrix.configuration }}
+
+      - name: Prepare firmware for upload
+        run: |
+          mkdir output
+          mv "${{ steps.esphome-build.outputs.name }}" output/
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ steps.esphome-build.outputs.name }}
+          path: output
