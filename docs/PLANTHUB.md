@@ -1,13 +1,17 @@
 # Plant hub
+
 This device is a bluetooth proxy for Xiaomi Mijia BLE sensors (HHCCJCY01). In the past this device was using the `xiaomi_hhccjcy01` platform combined with `esp32_ble_tracker`, hence the name Plant hub.
 
 # Hardware
- - Board: DOIT ESP32 DEVKIT V1
+
+- Board: DOIT ESP32 DEVKIT V1
 
 # Configuration
+
 The device configuration can be found in [planthub.yaml](../planthub.yaml)
 
 # Secrets
+
 This configuration requires the following secrets to be defined in your `secrets.yaml`
 
 ```yaml

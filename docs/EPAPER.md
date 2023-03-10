@@ -1,33 +1,40 @@
 # Epaper
+
 This is my version of an epaper display showing values from my Home Assistant, originally build by [@maxmacstn](https://github.com/maxmacstn/HA-ePaper-Display).
 
 # Hardware
- - Board: DOIT ESP32 DEVKIT V1
- - Waveshare 4.2" epaper display
+
+- Board: DOIT ESP32 DEVKIT V1
+- Waveshare 4.2" epaper display
 
 # Wiring
-| Board | Epaper display |
-|--|--|
-| D25 / GPIO25 | BUSY |
-| D26 / GPIO26 | RST |
-| D27 / GPIO27 | DC |
-| D15 / GPIO15 | CS |
-| D14 / GPIO14 | CLK |
-| D13 / GPIO13 | DIN |
-| GND | GND |
-| 3V3 | 3V3 |
+
+| Board        | Epaper display |
+| ------------ | -------------- |
+| D25 / GPIO25 | BUSY           |
+| D26 / GPIO26 | RST            |
+| D27 / GPIO27 | DC             |
+| D15 / GPIO15 | CS             |
+| D14 / GPIO14 | CLK            |
+| D13 / GPIO13 | DIN            |
+| GND          | GND            |
+| 3V3          | 3V3            |
 
 # Configuration
+
 The device configuration can be found in [epaper.yaml](../epaper.yaml)
 
 # Fonts
+
 The following fonts need to be added inside the `fonts` folder:
- - [fonts/Roboto-Medium.ttf](../fonts/Roboto-Medium.ttf)
- - [fonts/Roboto-Regular.ttf](../fonts/Roboto-Regular.ttf)
- - [fonts/Roboto-Bold.ttf](../fonts/Roboto-Bold.ttf)
- - [fonts/materialdesignicons-webfont.ttf](../fonts/materialdesignicons-webfont.ttf)
+
+- [fonts/Roboto-Medium.ttf](../fonts/Roboto-Medium.ttf)
+- [fonts/Roboto-Regular.ttf](../fonts/Roboto-Regular.ttf)
+- [fonts/Roboto-Bold.ttf](../fonts/Roboto-Bold.ttf)
+- [fonts/materialdesignicons-webfont.ttf](../fonts/materialdesignicons-webfont.ttf)
 
 # Secrets
+
 This configuration requires the following secrets to be defined in your `secrets.yaml`
 
 ```yaml

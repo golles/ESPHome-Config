@@ -1,23 +1,29 @@
 # DEVICE_NAME
+
 Device description.
 
 # Hardware
- - Board: boardname
- - Other device
+
+- Board: boardname
+- Other device
 
 # Wiring
+
 | Board | other device |
-|--|--|
-| GND | GND |
-| 3V3 | 3V3 |
+| ----- | ------------ |
+| GND   | GND          |
+| 3V3   | 3V3          |
 
 # Configuration
+
 The device configuration can be found in [device.yaml](../device.yaml)
 
 # Components
+
 No components are required to install.
 
 # Secrets
+
 This configuration requires the following secrets to be defined in your `secrets.yaml`
 
 ```yaml
@@ -33,4 +39,5 @@ device_encryption_key: abcdefghijklmnopqrstuvwxyz1234567890ABCDEFG=
 ```
 
 # Other
+
 Any other information that need to be documented.
