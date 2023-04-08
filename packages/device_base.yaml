@@ -45,6 +45,10 @@ button:
     id: ${devicename}_esphome_restart
     name: ${name} restart
 
+  - platform: safe_mode
+    id: ${devicename}_esphome_restart_safe_mode
+    name: ${name} restart (safe mode)
+
 text_sensor:
   - platform: version
     id: ${devicename}_esphome_version
