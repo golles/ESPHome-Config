@@ -32,6 +32,11 @@ globals:
 
 sensor:
   - platform: pulse_counter
+    pin:
+      number: D2
+      mode:
+        input: true
+        pullup: true
     pin: D2
     id: watermeter_pulse
     name: ${name} pulse
