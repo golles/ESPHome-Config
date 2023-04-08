@@ -37,7 +37,6 @@ sensor:
       mode:
         input: true
         pullup: true
-    pin: D2
     id: watermeter_pulse
     name: ${name} pulse
     update_interval: 1s
