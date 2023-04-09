@@ -64,6 +64,7 @@ sensor:
     icon: mdi:water
     update_interval: 1s
     unit_of_measurement: m³
+    device_class: water
     state_class: total_increasing
     accuracy_decimals: 3
     lambda: |-
