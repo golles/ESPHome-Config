@@ -3,6 +3,7 @@
     "esbenp.prettier-vscode",
     "esphome.esphome-vscode",
     "github.vscode-pull-request-github",
+    "lukas-tr.materialdesignicons-intellisense",
     "redhat.vscode-yaml"
   ]
 }
