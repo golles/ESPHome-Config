@@ -92,7 +92,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: ${{ fromJson(needs.list-configurations.outputs.matrix) }}
+        configuration: ${{ fromJson(steps.list-configurations.outputs.matrix) }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
