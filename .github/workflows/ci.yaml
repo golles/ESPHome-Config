@@ -73,19 +73,28 @@ jobs:
           name: secrets
           path: secrets.yaml
 
+  list-configurations:
+    name: Prepare matrix to build all configurations
+    runs-on: ubuntu-latest
+    needs: mock-secrets
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set matrix values
+        id: set-matrix
+        run: echo "::set-output name=matrix::$(grep -l "esphome:" *.yaml | jq -R -s -c 'split("\n")[:-1]')"
+
   build:
     name: Building ${{ matrix.configuration }}
     runs-on: ubuntu-latest
-    needs: mock-secrets
+    needs: list-configurations
     strategy:
       fail-fast: false
       matrix:
-        configuration:
-          - epaper.yaml
-          - mechanische_ventilatie.yaml
-          - particulate_matter.yaml
-          - planthub.yaml
-          - watermeter.yaml
+        configuration: ${{ fromJson(needs.list-configurations.outputs.matrix) }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
