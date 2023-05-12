@@ -76,7 +76,6 @@ jobs:
   list-configurations:
     name: Prepare matrix to build all configurations
     runs-on: ubuntu-latest
-    needs: mock-secrets
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -90,7 +89,9 @@ jobs:
   build:
     name: Building ${{ matrix.configuration }}
     runs-on: ubuntu-latest
-    needs: list-configurations
+    needs:
+      - list-configurations
+      - mock-secrets
     strategy:
       fail-fast: false
       matrix:
