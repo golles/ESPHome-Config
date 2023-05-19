@@ -4,6 +4,7 @@
     "esphome.esphome-vscode",
     "github.vscode-pull-request-github",
     "lukas-tr.materialdesignicons-intellisense",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "streetsidesoftware.code-spell-checker"
   ]
 }
