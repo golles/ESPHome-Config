@@ -50,7 +50,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Mocked secrets
+      - name: Mock secrets
         uses: golles/mock-yaml-secrets-action@main
         with:
           configFile: ".github/workflows/mock-secrets-config.json"
