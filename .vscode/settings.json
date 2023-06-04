@@ -6,6 +6,7 @@
   "editor.formatOnType": true,
   "files.trimTrailingWhitespace": true,
   "files.associations": {
+    "**/.github/workflows/**.yaml": "github-actions-workflow",
     "*.yaml": "esphome"
   },
   "editor.defaultFormatter": null,

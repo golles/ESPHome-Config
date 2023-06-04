@@ -2,6 +2,7 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "esphome.esphome-vscode",
+    "GitHub.vscode-github-actions",
     "github.vscode-pull-request-github",
     "lukas-tr.materialdesignicons-intellisense",
     "redhat.vscode-yaml",

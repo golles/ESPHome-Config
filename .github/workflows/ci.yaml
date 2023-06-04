@@ -23,56 +23,6 @@ jobs:
       - name: Run yamllint
         uses: frenck/action-yamllint@v1
 
-  mock-secrets:
-    name: Mocking secrets
-    runs-on: ubuntu-latest
-    needs: code-style
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
-
-      - name: Make empty secrets file
-        run: |
-          touch secrets.yaml
-
-      - name: Find all project secrets and add them to the secrets file
-        run: |
-          grep "\!secret " -r -i --include \*.yaml --include \*.yaml --exclude-dir=.github --exclude-dir=.vscode . | while read -r line ; do
-              secret=$(echo ${line} | awk '{if(/secret/) print $4}')
-              value="'value0123'"
-
-              if [[ $secret == *_ip ]]
-              then
-                  value="10.0.0.12"
-              elif [[ $secret == *_url ]]
-              then
-                  value="https://foo.bar"
-              elif [[ $secret == dns* ]]
-              then
-                  value="8.8.8.8"
-              elif [[ $secret == gateway ]]
-              then
-                  value="10.0.0.1"
-              elif [[ $secret == subnet ]]
-              then
-                  value="255.255.255.255"
-              elif [[ $secret == *_encryption_key ]]
-              then
-                  value="rE4PuSP78S3CzXZXjZvFYTvGg4yIi11rwsLngv8fQ7c=" # Random base64 encoded string.
-              fi
-
-              if [[ ! $(grep -R "${secret}" secrets.yaml) ]]
-              then
-                  echo "${secret}: ${value}" >> secrets.yaml
-              fi
-          done
-
-      - name: Upload mocked secrets
-        uses: actions/upload-artifact@v3
-        with:
-          name: secrets
-          path: secrets.yaml
-
   list-configurations:
     name: Prepare matrix to build all configurations
     runs-on: ubuntu-latest
@@ -91,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - list-configurations
-      - mock-secrets
+      - code-style
     strategy:
       fail-fast: false
       matrix:
@@ -100,10 +50,10 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Download mocked secret
-        uses: actions/download-artifact@v3
+      - name: Mock secrets
+        uses: golles/mock-yaml-secrets-action@v1
         with:
-          name: secrets
+          configFile: ".github/workflows/mock-secrets-config.json"
 
       - name: Build ESPHome firmware
         uses: esphome/build-action@v1.8.0
@@ -121,3 +71,21 @@ jobs:
         with:
           name: ${{ steps.esphome-build.outputs.name }}
           path: output
+
+  results:
+    # see https://github.community/t/status-check-for-a-matrix-jobs/127354/7
+    name: Final results
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: build
+    steps:
+      - name: Check all job status
+        # see https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#needs-context
+        # see https://stackoverflow.com/a/67532120/4907315
+        if: >-
+          ${{
+            contains(needs.*.result, 'failure') ||
+            contains(needs.*.result, 'cancelled') ||
+            contains(needs.*.result, 'skipped')
+          }}
+        run: exit 1
