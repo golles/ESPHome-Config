@@ -1,6 +1,6 @@
 substitutions:
-  devicename: particulate_matter
-  name: Particulate matter
+  name: particulate_matter
+  friendly_name: Particulate matter
   static_ip: !secret particulate_matter_static_ip
   wifi_ap_password: !secret ap_password
   ota_password: !secret particulate_matter_ota_password
@@ -10,9 +10,10 @@ packages:
   device_base: !include packages/device_base.yaml
 
 esphome:
-  name: $devicename
   platform: ESP8266
   board: nodemcuv2
+  name: ${name}
+  friendly_name: ${friendly_name}
 
 wifi:
   manual_ip:
@@ -20,7 +21,7 @@ wifi:
     dns2: !secret dns2
 
 http_request:
-  useragent: esphome/${devicename}
+  useragent: esphome/${name}
   timeout: 10s
 
 uart: # Enable UART for SDS011
@@ -35,40 +36,40 @@ i2c: # Enable i2c for BME280
 sensor:
   - platform: sds011
     pm_10_0:
-      id: ${devicename}_pm10
-      name: ${name} <10.0µm Concentration
+      id: ${name}_pm10
+      name: ${friendly_name} <10.0µm Concentration
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that pm10 is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_sds011_data
     pm_2_5:
-      id: ${devicename}_pm25
-      name: ${name} <2.5µm Concentration
+      id: ${name}_pm25
+      name: ${friendly_name} <2.5µm Concentration
       accuracy_decimals: 2
     update_interval: 30min # First deploy config with 0min, see https://github.com/esphome/issues/issues/1144 - you might need to do this a few times.
 
   - platform: bme280
     address: 0x76
     humidity:
-      id: ${devicename}_humidity
-      name: ${name} humidity
+      id: ${name}_humidity
+      name: ${friendly_name} humidity
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that humidity is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_bme280_data
     pressure:
-      id: ${devicename}_pressure
-      name: ${name} pressure
+      id: ${name}_pressure
+      name: ${friendly_name} pressure
       accuracy_decimals: 2
     temperature:
-      id: ${devicename}_temperature
-      name: ${name} temperature
+      id: ${name}_temperature
+      name: ${friendly_name} temperature
       accuracy_decimals: 2
     update_interval: 5min
 
 text_sensor:
   - platform: version
-    id: ${devicename}_esphome_short_version
+    id: ${name}_esphome_short_version
     hide_timestamp: true
     internal: true # Don't expose, only use in API calls.
 
@@ -83,14 +84,14 @@ script:
             X-Pin: 1 # This tells Luftdaten that it is SDS011 data.
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
-            root["software_version"] = id(${devicename}_esphome_short_version).state;
+            root["software_version"] = id(${name}_esphome_short_version).state;
             JsonArray sensordatavalues = root.createNestedArray("sensordatavalues");
             JsonObject pm10 = sensordatavalues.createNestedObject();
             pm10["value_type"] = "P1";
-            pm10["value"] = id(${devicename}_pm10).state;
+            pm10["value"] = id(${name}_pm10).state;
             JsonObject pm25 = sensordatavalues.createNestedObject();
             pm25["value_type"] = "P2";
-            pm25["value"] = id(${devicename}_pm25).state;
+            pm25["value"] = id(${name}_pm25).state;
           verify_ssl: false
 
       - http_request.post:
@@ -99,17 +100,17 @@ script:
             Content-Type: application/json
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
-            root["software_version"] = id(${devicename}_esphome_short_version).state;
+            root["software_version"] = id(${name}_esphome_short_version).state;
             JsonArray sensordatavalues = root.createNestedArray("sensordatavalues");
             JsonObject pm10 = sensordatavalues.createNestedObject();
             pm10["value_type"] = "SDS_P1";
-            pm10["value"] = id(${devicename}_pm10).state;
+            pm10["value"] = id(${name}_pm10).state;
             JsonObject pm25 = sensordatavalues.createNestedObject();
             pm25["value_type"] = "SDS_P2";
-            pm25["value"] = id(${devicename}_pm25).state;
+            pm25["value"] = id(${name}_pm25).state;
             JsonObject signal = sensordatavalues.createNestedObject();
             signal["value_type"] = "signal";
-            signal["value"] = id(${devicename}_esphome_wifi_signal).state;
+            signal["value"] = id(${name}_esphome_wifi_signal).state;
           verify_ssl: false
 
       - http_request.post:
@@ -122,10 +123,10 @@ script:
             JsonArray sensordatavalues = root.createNestedArray("sensordatavalues");
             JsonObject pm10 = sensordatavalues.createNestedObject();
             pm10["value_type"] = "SDS_P1";
-            pm10["value"] = id(${devicename}_pm10).state;
+            pm10["value"] = id(${name}_pm10).state;
             JsonObject pm25 = sensordatavalues.createNestedObject();
             pm25["value_type"] = "SDS_P2";
-            pm25["value"] = id(${devicename}_pm25).state;
+            pm25["value"] = id(${name}_pm25).state;
           verify_ssl: false
 
   - id: push_bme280_data
@@ -137,17 +138,17 @@ script:
             X-Pin: 11 # This tells Luftdaten that it is BME280 data.
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
-            root["software_version"] = id(${devicename}_esphome_short_version).state;
+            root["software_version"] = id(${name}_esphome_short_version).state;
             JsonArray sensordatavalues = root.createNestedArray("sensordatavalues");
             JsonObject humidity = sensordatavalues.createNestedObject();
             humidity["value_type"] = "humidity";
-            humidity["value"] = id(${devicename}_humidity).state;
+            humidity["value"] = id(${name}_humidity).state;
             JsonObject pressure = sensordatavalues.createNestedObject();
             pressure["value_type"] = "pressure";
-            pressure["value"] = id(${devicename}_pressure).state * 100;
+            pressure["value"] = id(${name}_pressure).state * 100;
             JsonObject temperature = sensordatavalues.createNestedObject();
             temperature["value_type"] = "temperature";
-            temperature["value"] = id(${devicename}_temperature).state;
+            temperature["value"] = id(${name}_temperature).state;
           verify_ssl: false
 
       - http_request.post:
@@ -156,20 +157,20 @@ script:
             Content-Type: application/json
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
-            root["software_version"] = id(${devicename}_esphome_short_version).state;
+            root["software_version"] = id(${name}_esphome_short_version).state;
             JsonArray sensordatavalues = root.createNestedArray("sensordatavalues");
             JsonObject humidity = sensordatavalues.createNestedObject();
             humidity["value_type"] = "BME280_humidity";
-            humidity["value"] = id(${devicename}_humidity).state;
+            humidity["value"] = id(${name}_humidity).state;
             JsonObject pressure = sensordatavalues.createNestedObject();
             pressure["value_type"] = "BME280_pressure";
-            pressure["value"] = id(${devicename}_pressure).state * 100;
+            pressure["value"] = id(${name}_pressure).state * 100;
             JsonObject temperature = sensordatavalues.createNestedObject();
             temperature["value_type"] = "BME280_temperature";
-            temperature["value"] = id(${devicename}_temperature).state;
+            temperature["value"] = id(${name}_temperature).state;
             JsonObject signal = sensordatavalues.createNestedObject();
             signal["value_type"] = "signal";
-            signal["value"] = id(${devicename}_esphome_wifi_signal).state;
+            signal["value"] = id(${name}_esphome_wifi_signal).state;
           verify_ssl: false
 
       - http_request.post:
@@ -182,11 +183,11 @@ script:
             JsonArray sensordatavalues = root.createNestedArray("sensordatavalues");
             JsonObject humidity = sensordatavalues.createNestedObject();
             humidity["value_type"] = "BME280_humidity";
-            humidity["value"] = id(${devicename}_humidity).state;
+            humidity["value"] = id(${name}_humidity).state;
             JsonObject pressure = sensordatavalues.createNestedObject();
             pressure["value_type"] = "BME280_pressure";
-            pressure["value"] = id(${devicename}_pressure).state;
+            pressure["value"] = id(${name}_pressure).state;
             JsonObject temperature = sensordatavalues.createNestedObject();
             temperature["value_type"] = "BME280_temperature";
-            temperature["value"] = id(${devicename}_temperature).state;
+            temperature["value"] = id(${name}_temperature).state;
           verify_ssl: false

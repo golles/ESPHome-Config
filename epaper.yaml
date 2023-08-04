@@ -1,6 +1,6 @@
 substitutions:
-  devicename: epaper
-  name: Epaper
+  name: epaper
+  friendly_name: Epaper
   static_ip: !secret epaper_static_ip
   wifi_ap_password: !secret ap_password
   ota_password: !secret epaper_ota_password
@@ -10,9 +10,10 @@ packages:
   device_base: !include packages/device_base.yaml
 
 esphome:
-  name: $devicename
   platform: ESP32
   board: esp32doit-devkit-v1
+  name: ${name}
+  friendly_name: ${friendly_name}
 
 api:
   services:
@@ -513,16 +514,16 @@ display:
 
       /* FOOTER */
       it.strftime(355, 295, id(footer_font), TextAlign::BASELINE_RIGHT, "Updated at %d/%b/%Y %H:%M", id(homeassistant_time).now());
-      if (id(${devicename}_esphome_wifi_signal).has_state()) {
+      if (id(${name}_esphome_wifi_signal).has_state()) {
         int x = 375;
         int y = 295;
-        if (id(${devicename}_esphome_wifi_signal).state >= -50) {
+        if (id(${name}_esphome_wifi_signal).state >= -50) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤨");
-        } else if (id(${devicename}_esphome_wifi_signal).state  >= -60) {
+        } else if (id(${name}_esphome_wifi_signal).state  >= -60) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤥");
-        } else if (id(${devicename}_esphome_wifi_signal).state  >= -75) {
+        } else if (id(${name}_esphome_wifi_signal).state  >= -75) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤢");
-        } else if (id(${devicename}_esphome_wifi_signal).state  >= -100) {
+        } else if (id(${name}_esphome_wifi_signal).state  >= -100) {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤟");
         } else {
             it.print(x, y, id(mdi_wifi), TextAlign::BASELINE_CENTER, "󰤫");

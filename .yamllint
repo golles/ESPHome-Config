@@ -1,3 +1,7 @@
+ignore:
+  - .esphome
+  - "./**/secrets.yaml"
+
 rules:
   braces:
     level: error

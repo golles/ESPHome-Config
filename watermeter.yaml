@@ -1,6 +1,6 @@
 substitutions:
-  devicename: watermeter
-  name: Watermeter
+  name: watermeter
+  friendly_name: Watermeter
   static_ip: !secret watermeter_static_ip
   wifi_ap_password: !secret ap_password
   ota_password: !secret watermeter_ota_password
@@ -10,9 +10,10 @@ packages:
   device_base: !include packages/device_base.yaml
 
 esphome:
-  name: $devicename
   platform: ESP8266
   board: d1_mini
+  name: ${name}
+  friendly_name: ${friendly_name}
 
 api:
   services:
@@ -38,7 +39,7 @@ sensor:
         input: true
         pullup: true
     id: watermeter_pulse
-    name: ${name} pulse
+    name: ${friendly_name} pulse
     update_interval: 1s
     unit_of_measurement: L/min
     state_class: measurement
@@ -50,7 +51,7 @@ sensor:
           return x * (60.0 / 1000.0);
     total:
       id: sensor_pulse_meter_total
-      name: ${name} pulse totaal
+      name: ${friendly_name} pulse totaal
       icon: mdi:cube-outline
       state_class: total_increasing
       unit_of_measurement: m³
@@ -60,7 +61,7 @@ sensor:
 
   - platform: template
     id: watermeter_total
-    name: ${name} totaal
+    name: ${friendly_name} totaal
     icon: mdi:water
     update_interval: 1s
     unit_of_measurement: m³

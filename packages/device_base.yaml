@@ -27,29 +27,29 @@ time:
 
 sensor:
   - platform: wifi_signal
-    id: ${devicename}_esphome_wifi_signal
-    name: ${name} wifi signal
+    id: ${name}_esphome_wifi_signal
+    name: ${friendly_name} wifi signal
     update_interval: 10s
 
   - platform: uptime
-    id: ${devicename}_esphome_uptime
-    name: ${name} uptime
+    id: ${name}_esphome_uptime
+    name: ${friendly_name} uptime
 
 binary_sensor:
   - platform: status
-    id: ${devicename}_esphome_status
-    name: ${name} status
+    id: ${name}_esphome_status
+    name: ${friendly_name} status
 
 button:
   - platform: restart
-    id: ${devicename}_esphome_restart
-    name: ${name} restart
+    id: ${name}_esphome_restart
+    name: ${friendly_name} restart
 
   - platform: safe_mode
-    id: ${devicename}_esphome_restart_safe_mode
-    name: ${name} restart (safe mode)
+    id: ${name}_esphome_restart_safe_mode
+    name: ${friendly_name} restart (safe mode)
 
 text_sensor:
   - platform: version
-    id: ${devicename}_esphome_version
-    name: ${name} version
+    id: ${name}_esphome_version
+    name: ${friendly_name} version

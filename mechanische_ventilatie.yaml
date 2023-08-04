@@ -1,6 +1,6 @@
 substitutions:
-  devicename: mechanische_ventilatie
-  name: Mechanische ventilatie
+  name: mechanische_ventilatie
+  friendly_name: Mechanische ventilatie
   static_ip: !secret mechanische_ventilatie_static_ip
   wifi_ap_password: !secret ap_password
   ota_password: !secret mechanische_ventilatie_ota_password
@@ -10,7 +10,8 @@ packages:
   device_base: !include packages/device_base.yaml
 
 esphome:
-  name: $devicename
+  name: ${name}
+  friendly_name: ${friendly_name}
 
 esp32:
   board: esp32doit-devkit-v1
@@ -28,7 +29,7 @@ api:
         timer: int
       then:
         - lambda: |-
-            id(${devicename}_fan).setSpeed(speed, timer);
+            id(${name}_fan).setSpeed(speed, timer);
 
 spi:
   clk_pin: GPIO14
@@ -47,32 +48,32 @@ nrf905:
 
 fan:
   - platform: zehnder
-    id: ${devicename}_fan
-    name: ${name}
+    id: ${name}_fan
+    name: ${friendly_name}
     nrf905: nrf905_rf
     update_interval: 10s
 
 button:
   - platform: template
-    id: ${devicename}_high_15
-    name: ${name} 15 minuten hoog
+    id: ${name}_high_15
+    name: ${friendly_name} 15 minuten hoog
     on_press:
       then:
         lambda: |-
-          id(${devicename}_fan).setSpeed(4, 15);
+          id(${name}_fan).setSpeed(4, 15);
 
   - platform: template
-    id: ${devicename}_high_30
-    name: ${name} 30 minuten hoog
+    id: ${name}_high_30
+    name: ${friendly_name} 30 minuten hoog
     on_press:
       then:
         lambda: |-
-          id(${devicename}_fan).setSpeed(4, 30);
+          id(${name}_fan).setSpeed(4, 30);
 
   - platform: template
-    id: ${devicename}_high_60
-    name: ${name} 60 minuten hoog
+    id: ${name}_high_60
+    name: ${friendly_name} 60 minuten hoog
     on_press:
       then:
         lambda: |-
-          id(${devicename}_fan).setSpeed(4, 60);
+          id(${name}_fan).setSpeed(4, 60);
