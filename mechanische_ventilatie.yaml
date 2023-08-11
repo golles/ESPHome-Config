@@ -49,14 +49,14 @@ nrf905:
 fan:
   - platform: zehnder
     id: ${name}_fan
-    name: ${friendly_name}
+    name: Ventilatie
     nrf905: nrf905_rf
     update_interval: 10s
 
 button:
   - platform: template
     id: ${name}_high_15
-    name: ${friendly_name} 15 minuten hoog
+    name: 15 minuten hoog
     on_press:
       then:
         lambda: |-
@@ -64,7 +64,7 @@ button:
 
   - platform: template
     id: ${name}_high_30
-    name: ${friendly_name} 30 minuten hoog
+    name: 30 minuten hoog
     on_press:
       then:
         lambda: |-
@@ -72,7 +72,7 @@ button:
 
   - platform: template
     id: ${name}_high_60
-    name: ${friendly_name} 60 minuten hoog
+    name: 60 minuten hoog
     on_press:
       then:
         lambda: |-

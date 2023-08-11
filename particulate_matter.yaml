@@ -37,14 +37,14 @@ sensor:
   - platform: sds011
     pm_10_0:
       id: ${name}_pm10
-      name: ${friendly_name} <10.0µm Concentration
+      name: <10.0µm Concentration
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that pm10 is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_sds011_data
     pm_2_5:
       id: ${name}_pm25
-      name: ${friendly_name} <2.5µm Concentration
+      name: <2.5µm Concentration
       accuracy_decimals: 2
     update_interval: 30min # First deploy config with 0min, see https://github.com/esphome/issues/issues/1144 - you might need to do this a few times.
 
@@ -52,18 +52,18 @@ sensor:
     address: 0x76
     humidity:
       id: ${name}_humidity
-      name: ${friendly_name} humidity
+      name: Humidity
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that humidity is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_bme280_data
     pressure:
       id: ${name}_pressure
-      name: ${friendly_name} pressure
+      name: Pressure
       accuracy_decimals: 2
     temperature:
       id: ${name}_temperature
-      name: ${friendly_name} temperature
+      name: Temperature
       accuracy_decimals: 2
     update_interval: 5min
 

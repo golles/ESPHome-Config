@@ -39,7 +39,7 @@ sensor:
         input: true
         pullup: true
     id: watermeter_pulse
-    name: ${friendly_name} pulse
+    name: Pulse
     update_interval: 1s
     unit_of_measurement: L/min
     state_class: measurement
@@ -51,7 +51,7 @@ sensor:
           return x * (60.0 / 1000.0);
     total:
       id: sensor_pulse_meter_total
-      name: ${friendly_name} pulse totaal
+      name: Pulse totaal
       icon: mdi:cube-outline
       state_class: total_increasing
       unit_of_measurement: m³
@@ -61,7 +61,7 @@ sensor:
 
   - platform: template
     id: watermeter_total
-    name: ${friendly_name} totaal
+    name: Totaal
     icon: mdi:water
     update_interval: 1s
     unit_of_measurement: m³
