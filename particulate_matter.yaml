@@ -37,14 +37,14 @@ sensor:
   - platform: sds011
     pm_10_0:
       id: ${name}_pm10
-      name: <10.0µm Concentration
+      name: PM 10
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that pm10 is the last one. so we can trigger the automation here.
       on_value:
         - script.execute: push_sds011_data
     pm_2_5:
       id: ${name}_pm25
-      name: <2.5µm Concentration
+      name: PM 2.5
       accuracy_decimals: 2
     update_interval: 30min # First deploy config with 0min, see https://github.com/esphome/issues/issues/1144 - you might need to do this a few times.
 
