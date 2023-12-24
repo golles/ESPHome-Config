@@ -21,3 +21,8 @@ wifi:
     static_ip: !secret epo1_static_ip
     gateway: !secret gateway
     subnet: !secret subnet
+
+binary_sensor:
+  - id: !extend occupancy
+    lambda: |-
+      return id(mmwave).state;
