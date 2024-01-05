@@ -12,7 +12,7 @@ jobs:
     name: Code style
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Run prettier
@@ -82,10 +82,5 @@ jobs:
       - name: Check all job status
         # see https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#needs-context
         # see https://stackoverflow.com/a/67532120/4907315
-        if: >-
-          ${{
-            contains(needs.*.result, 'failure') ||
-            contains(needs.*.result, 'cancelled') ||
-            contains(needs.*.result, 'skipped')
-          }}
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
         run: exit 1
