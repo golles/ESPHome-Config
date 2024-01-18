@@ -124,7 +124,7 @@ font:
         "/",
         "º",
         "µ",
-        "³",
+        "³"
       ]
 
   - file: "fonts/Roboto-Regular.ttf"
@@ -215,7 +215,7 @@ font:
         "/",
         "º",
         "µ",
-        "³",
+        "³"
       ]
 
   - file: "fonts/Roboto-Medium.ttf"
@@ -306,7 +306,7 @@ font:
         "/",
         "º",
         "µ",
-        "³",
+        "³"
       ]
 
   - file: "fonts/Roboto-Bold.ttf"
@@ -325,7 +325,7 @@ font:
         "󰤥", # mdi-wifi-strength-3
         "󰤨", # mdi-wifi-strength-4
         "󰔏", # mdi-thermometer
-        "󰖎", # mdi-water-percent
+        "󰖎" # mdi-water-percent
       ]
 
   - file: "fonts/materialdesignicons-webfont.ttf"
@@ -338,7 +338,7 @@ font:
         "󰤟", # mdi-wifi-strength-1
         "󰤢", # mdi-wifi-strength-2
         "󰤥", # mdi-wifi-strength-3
-        "󰤨", # mdi-wifi-strength-4
+        "󰤨" # mdi-wifi-strength-4
       ]
 
   - file: "fonts/materialdesignicons-webfont.ttf"
@@ -352,7 +352,7 @@ font:
         "󰤢", # mdi-wifi-strength-2
         "󰤥", # mdi-wifi-strength-3
         "󰤨", # mdi-wifi-strength-4
-        "󰀦", # mdi-alert
+        "󰀦" # mdi-alert
       ]
 
 sensor:
