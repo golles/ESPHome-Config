@@ -30,12 +30,12 @@ sensor:
     id: ${name}_esphome_wifi_signal
     name: Wifi signal
     update_interval: 10s
-    disabled_by_default: True
+    disabled_by_default: true
 
   - platform: uptime
     id: ${name}_esphome_uptime
     name: Uptime
-    disabled_by_default: True
+    disabled_by_default: true
 
 binary_sensor:
   - platform: status
@@ -46,15 +46,15 @@ button:
   - platform: restart
     id: ${name}_esphome_restart
     name: Restart
-    disabled_by_default: True
+    disabled_by_default: true
 
   - platform: safe_mode
     id: ${name}_esphome_restart_safe_mode
     name: Restart (safe mode)
-    disabled_by_default: True
+    disabled_by_default: true
 
 text_sensor:
   - platform: version
     id: ${name}_esphome_version
     name: Version
-    disabled_by_default: True
+    disabled_by_default: true
