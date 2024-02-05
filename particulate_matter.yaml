@@ -97,6 +97,8 @@ script:
             pm25["value"] = id(${name}_pm25).state;
           verify_ssl: false
 
+      - delay: 30s
+
       - http_request.post:
           url: https://api-rrd.madavi.de/data.php
           headers:
@@ -115,6 +117,8 @@ script:
             signal["value_type"] = "signal";
             signal["value"] = id(${name}_esphome_wifi_signal).state;
           verify_ssl: false
+
+      - delay: 30s
 
       - http_request.post:
           # API documentation: https://docs.opensensemap.org/#api-Measurements-postNewMeasurements
@@ -154,6 +158,8 @@ script:
             temperature["value"] = id(${name}_temperature).state;
           verify_ssl: false
 
+      - delay: 30s
+
       - http_request.post:
           url: https://api-rrd.madavi.de/data.php
           headers:
@@ -175,6 +181,8 @@ script:
             signal["value_type"] = "signal";
             signal["value"] = id(${name}_esphome_wifi_signal).state;
           verify_ssl: false
+
+      - delay: 30s
 
       - http_request.post:
           # API documentation: https://docs.opensensemap.org/#api-Measurements-postNewMeasurements
