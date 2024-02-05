@@ -4,28 +4,28 @@ This is an ESPHome version of the particulate matter sensor from sensor.communit
 
 # Hardware
 
-- Board: ESP8266 NodeMCU V2
+- Board: QuinLED-ESP32 AB (Antenna Board)
 - SDS011 Fine dust sensor
 - BME280 6-PIN, temperature, humidity and air pressure
 
 # Wiring
 
-| Board      | SDS011 |
-| ---------- | ------ |
-| D1 / GPIO5 | Pin 1  |
-| D2 / GPIO4 | Pin 2  |
-| GND        | Pin 3  |
-| Unused     | Pin 4  |
-| VIN        | Pin 5  |
-| Unused     | Pin 6  |
-| Unused     | Pin 7  |
+| Board  | SDS011 |
+| ------ | ------ |
+| GPIO32 | Pin 1  |
+| GPIO12 | Pin 2  |
+| GND    | Pin 3  |
+| Unused | Pin 4  |
+| VIN    | Pin 5  |
+| Unused | Pin 6  |
+| Unused | Pin 7  |
 
-| Board      | BME280 |
-| ---------- | ------ |
-| 3V3        | 3V3    |
-| GND        | GND    |
-| D3 / GPIO0 | SDA    |
-| D4 / GPIO2 | SCL    |
+| Board  | BME280 |
+| ------ | ------ |
+| 3V3    | 3V3    |
+| GND    | GND    |
+| GPIO27 | SDA    |
+| GPIO25 | SCL    |
 
 # Configuration
 

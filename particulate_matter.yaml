@@ -10,10 +10,13 @@ packages:
   device_base: !include packages/device_base.yaml
 
 esphome:
-  platform: ESP8266
-  board: nodemcuv2
   name: ${name}
   friendly_name: ${friendly_name}
+
+esp32:
+  board: mhetesp32minikit
+  framework:
+    type: arduino
 
 wifi:
   manual_ip:
@@ -25,13 +28,13 @@ http_request:
   timeout: 10s
 
 uart: # Enable UART for SDS011
-  rx_pin: D1
-  tx_pin: D2
+  rx_pin: GPIO32
+  tx_pin: GPIO12
   baud_rate: 9600
 
 i2c: # Enable i2c for BME280
-  sda: D3
-  scl: D4
+  sda: GPIO27
+  scl: GPIO25
 
 sensor:
   - platform: sds011
