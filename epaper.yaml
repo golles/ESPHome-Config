@@ -402,7 +402,7 @@ sensor:
 
   - platform: homeassistant
     id: pm25_outdoor
-    entity_id: sensor.particulate_matter_2_5um_concentration
+    entity_id: sensor.particulate_matter_pm_2_5
     on_value:
       then:
         - lambda: |-
