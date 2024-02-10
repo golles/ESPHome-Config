@@ -1,6 +1,6 @@
 # Epaper
 
-This is my version of an epaper display showing values from my Home Assistant, originally build by [@maxmacstn](https://github.com/maxmacstn/HA-ePaper-Display).
+Here is my version of an e-paper display that presents data from my Home Assistant setup, originally created by [@maxmacstn](https://github.com/maxmacstn/HA-ePaper-Display).
 
 # Hardware
 
