@@ -31,6 +31,8 @@ This is an ESPHome version of the particulate matter sensor from sensor.communit
 
 The device configuration can be found in [particulate_matter.yaml](../particulate_matter.yaml)
 
+The device features a switch called `Standalone mode`. When activated, the device functions independently, autonomously sending data to various providers. Conversely, when this switch is deactivated, you must manually transmit the data, for instance, through Home Assistant. Check out [particulate_matter.yaml in my Home Assistant config](https://github.com/golles/Home-Assistant-Config/blob/main/packages/particulate_matter.yaml) for a detailed example.
+
 # Secrets
 
 This configuration requires the following secrets to be defined in your `secrets.yaml`

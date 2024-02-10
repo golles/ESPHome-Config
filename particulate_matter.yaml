@@ -44,7 +44,11 @@ sensor:
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that pm10 is the last one. so we can trigger the automation here.
       on_value:
-        - script.execute: push_sds011_data
+        - if:
+            condition:
+              switch.is_on: standalone_mode
+            then:
+              - script.execute: push_sds011_data
     pm_2_5:
       id: ${name}_pm25
       name: PM 2.5
@@ -59,7 +63,11 @@ sensor:
       accuracy_decimals: 2
       # All the sensor values update in the same cycle and the logs indicate that humidity is the last one. so we can trigger the automation here.
       on_value:
-        - script.execute: push_bme280_data
+        - if:
+            condition:
+              switch.is_on: standalone_mode
+            then:
+              - script.execute: push_bme280_data
     pressure:
       id: ${name}_pressure
       name: Pressure
@@ -69,6 +77,14 @@ sensor:
       name: Temperature
       accuracy_decimals: 2
     update_interval: 5min
+
+switch:
+  - platform: template
+    id: standalone_mode
+    name: Standalone mode
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
 
 text_sensor:
   - platform: version
