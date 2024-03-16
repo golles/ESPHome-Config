@@ -55,7 +55,7 @@ sensor:
       accuracy_decimals: 2
     update_interval: 30min # First deploy config with 0min, see https://github.com/esphome/issues/issues/1144 - you might need to do this a few times.
 
-  - platform: bme280
+  - platform: bme280_i2c
     address: 0x76
     humidity:
       id: ${name}_humidity
