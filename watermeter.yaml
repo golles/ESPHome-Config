@@ -11,7 +11,7 @@ packages:
 
 esphome:
   platform: ESP8266
-  board: d1_mini
+  board: nodemcuv2
   name: ${name}
   friendly_name: ${friendly_name}
 
@@ -28,42 +28,43 @@ api:
 globals:
   - id: totalWaterUsage
     type: float
-    restore_value: true # When updating below value, change this to false for 1 run.
-    initial_value: "264.904" # 23-1-2022 20:30
+    restore_value: true
+    initial_value: "367.853" # 08-02-2024 13:00
 
 sensor:
-  - platform: pulse_counter
-    pin:
-      number: D2
-      mode:
-        input: true
-        pullup: true
-    id: watermeter_pulse
+  - platform: pulse_meter
+    pin: D6
+    # name: Verbruik
     name: Pulse
-    update_interval: 1s
     unit_of_measurement: L/min
-    state_class: measurement
+    icon: mdi:water-pump
+    internal_filter_mode: PULSE
+    internal_filter: 50ms
     filters:
       - lambda: |-
-          if (x > 0) {
-            id(totalWaterUsage) += 0.001;
-          }
           return x * (60.0 / 1000.0);
     total:
       id: sensor_pulse_meter_total
-      name: Pulse totaal
+      name: Totaalverbruik
       icon: mdi:cube-outline
+      device_class: water
       state_class: total_increasing
       unit_of_measurement: m³
       accuracy_decimals: 3
+      disabled_by_default: true
       filters:
+        - lambda: |-
+            if (x > 0) {
+              id(totalWaterUsage) += 0.001;
+            }
+            return x;
         - multiply: 0.001
 
   - platform: template
     id: watermeter_total
     name: Totaal
     icon: mdi:water
-    update_interval: 1s
+    update_interval: 5s
     unit_of_measurement: m³
     device_class: water
     state_class: total_increasing
