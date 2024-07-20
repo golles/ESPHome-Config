@@ -9,12 +9,12 @@ esphome:
   friendly_name: ${friendly_name}
 api:
   encryption:
-    key: !secret epl1_encryption_key
+    key: !secret epl_eettafel_encryption_key
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   manual_ip:
-    static_ip: !secret epl1_static_ip
+    static_ip: !secret epl_eettafel_static_ip
     gateway: !secret gateway
     subnet: !secret subnet
