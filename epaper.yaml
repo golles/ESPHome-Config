@@ -5,6 +5,7 @@ substitutions:
   wifi_ap_password: !secret ap_password
   ota_password: !secret epaper_ota_password
   encryption_key: !secret epaper_encryption_key
+  version: v1
 
 packages:
   device_base: !include packages/device_base.yaml
@@ -14,6 +15,9 @@ esphome:
   board: esp32doit-devkit-v1
   name: ${name}
   friendly_name: ${friendly_name}
+  project:
+    name: golles.${friendly_name}
+    version: ${version}
 
 api:
   services:
