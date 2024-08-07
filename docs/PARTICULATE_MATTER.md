@@ -72,6 +72,8 @@ In OpenSenseMap you can find your `Access Token` under the security options of t
 
 Case being used: https://www.thingiverse.com/thing:4041319
 
+The BME280 board isn't meant for outdoor usage. To make it last longer I've coated the board in several layers of clear nail polish. Only the BME280 component (with the hole) shouldn't be covered.
+
 ### SDS011 update interval
 
 This sensor has a limited lifespan and shouldn't be activated too often. Setting the `update_interval` to `30min` is recommended. However, this doesn't seem to work out of the box resulting in the sensor being on continuously and pushing readings every second. This can be resolved by setting the value to `0min` first and then to `30min`. For me, I had to repeat this a few times to get this working. More info in this [ESPHome issue](https://github.com/esphome/issues/issues/1144)
