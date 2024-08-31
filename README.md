@@ -25,12 +25,6 @@ This is an ESPHome version of the particulate matter sensor from sensor.communit
 
 [More details](docs/PARTICULATE_MATTER.md).
 
-## PlantHub
-
-This device is a bluetooth proxy for Xiaomi Mijia BLE sensors (HHCCJCY01). In the past this device was using the `xiaomi_hhccjcy01` platform combined with `esp32_ble_tracker`, hence the name Plant hub.
-
-[More details](docs/PLANTHUB.md).
-
 ## Watermeter
 
 A simple water meter device that uses an npn proximity sensor.
