@@ -56,10 +56,10 @@ jobs:
           configFile: ".github/workflows/mock-secrets-config.json"
 
       - name: Build ESPHome firmware
-        uses: esphome/build-action@v3
+        uses: esphome/build-action@v4
         id: esphome-build
         with:
-          yaml_file: ${{ matrix.configuration }}
+          yaml-file: ${{ matrix.configuration }}
 
       - name: Prepare firmware for upload
         run: |
