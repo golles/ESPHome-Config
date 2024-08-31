@@ -59,7 +59,7 @@ jobs:
         uses: esphome/build-action@v4
         id: esphome-build
         with:
-          yaml_file: ${{ matrix.configuration }}
+          yaml-file: ${{ matrix.configuration }}
 
       - name: Prepare firmware for upload
         run: |
