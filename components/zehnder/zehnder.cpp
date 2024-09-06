@@ -97,38 +97,6 @@ void ZehnderRF::setup() {
     ESP_LOGD(TAG, "Config load ok");
   }
 
-  // Set nRF905 config
-  nrf905::Config rfConfig;
-  rfConfig = this->rf_->getConfig();
-
-  rfConfig.band = true;
-  rfConfig.channel = 118;
-
-  // // CRC 16
-  rfConfig.crc_enable = true;
-  rfConfig.crc_bits = 16;
-
-  // // TX power 10
-  rfConfig.tx_power = 10;
-
-  // // RX power normal
-  rfConfig.rx_power = nrf905::PowerNormal;
-
-  rfConfig.rx_address = 0x89816EA9;  // ZEHNDER_NETWORK_LINK_ID;
-  rfConfig.rx_address_width = 4;
-  rfConfig.rx_payload_width = 16;
-
-  rfConfig.tx_address_width = 4;
-  rfConfig.tx_payload_width = 16;
-
-  rfConfig.xtal_frequency = 16000000;  // defaults for now
-  rfConfig.clkOutFrequency = nrf905::ClkOut500000;
-  rfConfig.clkOutEnable = false;
-
-  // Write config back
-  this->rf_->updateConfig(&rfConfig);
-  this->rf_->writeTxAddress(0x89816EA9);
-
   this->speed_count_ = 4;
 
   this->rf_->setOnTxReady([this](void) {
