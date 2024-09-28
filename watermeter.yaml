@@ -43,7 +43,8 @@ sensor:
     unit_of_measurement: L/min
     icon: mdi:water-pump
     internal_filter_mode: PULSE
-    internal_filter: 50ms
+    internal_filter: 300ms
+    timeout: 2min
     filters:
       - lambda: |-
           return x * (60.0 / 1000.0);
