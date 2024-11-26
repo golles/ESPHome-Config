@@ -40,4 +40,4 @@ epo1_encryption_key: abcdefghijklmnopqrstuvwxyz1234567890ABCDEFG=
 
 # Other
 
-Support the creator and buy your own version of the [Everything presence light](https://shop.everythingsmart.io/en-nl/products/everything-presence-lite).
+Support the creator and buy your own version of the [Everything presence light](https://shop.everythingsmart.io/products/everything-presence-lite).
