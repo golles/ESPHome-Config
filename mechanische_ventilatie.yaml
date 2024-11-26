@@ -82,3 +82,12 @@ button:
       then:
         lambda: |-
           id(${name}_fan).setSpeed(4, 60);
+
+time:
+  - platform: sntp
+    on_time:
+      - seconds: 0
+        minutes: 0
+        hours: 5
+        then:
+          - button.press: ${name}_esphome_restart
