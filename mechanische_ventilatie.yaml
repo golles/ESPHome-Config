@@ -60,12 +60,28 @@ fan:
 
 button:
   - platform: template
+    id: ${name}_extra_high_15
+    name: 15 minuten extra hoog
+    on_press:
+      then:
+        lambda: |-
+          id(${name}_fan).setSpeed(4, 15);
+
+  - platform: template
+    id: ${name}_extra_high_30
+    name: 30 minuten extra hoog
+    on_press:
+      then:
+        lambda: |-
+          id(${name}_fan).setSpeed(4, 30);
+
+  - platform: template
     id: ${name}_high_15
     name: 15 minuten hoog
     on_press:
       then:
         lambda: |-
-          id(${name}_fan).setSpeed(4, 15);
+          id(${name}_fan).setSpeed(3, 15);
 
   - platform: template
     id: ${name}_high_30
@@ -73,15 +89,15 @@ button:
     on_press:
       then:
         lambda: |-
-          id(${name}_fan).setSpeed(4, 30);
+          id(${name}_fan).setSpeed(3, 30);
 
   - platform: template
-    id: ${name}_high_60
-    name: 60 minuten hoog
+    id: ${name}_medium_15
+    name: 15 minuten medium
     on_press:
       then:
         lambda: |-
-          id(${name}_fan).setSpeed(4, 60);
+          id(${name}_fan).setSpeed(2, 15);
 
 time:
   - platform: sntp
