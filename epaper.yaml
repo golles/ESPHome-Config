@@ -11,13 +11,14 @@ packages:
   device_base: !include packages/device_base.yaml
 
 esphome:
-  platform: ESP32
-  board: esp32doit-devkit-v1
   name: ${name}
   friendly_name: ${friendly_name}
   project:
     name: golles.${friendly_name}
     version: ${version}
+
+esp32:
+  board: esp32doit-devkit-v1
 
 api:
   services:
