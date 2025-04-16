@@ -7,17 +7,17 @@
 [![Project Maintenance][maintenance-shield]][maintainer]
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
-## Everything presence light
-
-Configuration for several Everything presence light sensors.
-
-[More details](docs/EPL.md).
-
 ## Epaper
 
 This is my version of an epaper display showing values from my Home Assistant.
 
 [More details](docs/EPAPER.md).
+
+## Everything presence light
+
+Configuration for several Everything presence light sensors.
+
+[More details](docs/EPL.md).
 
 ## Mechanische ventilatie
 
