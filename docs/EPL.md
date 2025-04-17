@@ -16,6 +16,7 @@ The device configuration can be found in
 - [EPL Eettafel](../everything-presence-lite-eettafel.yaml)
 - [EPL Keuken](../everything-presence-lite-keuken.yaml)
 - [EPL Woonkamer](../everything-presence-lite-woonkamer.yaml)
+- [EPL Zolder](../everything-presence-lite-zolder.yaml)
 
 # Components
 
