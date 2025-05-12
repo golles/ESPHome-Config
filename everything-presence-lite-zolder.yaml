@@ -2,7 +2,7 @@ substitutions:
   name: epl-zolder
   friendly_name: EPL Zolder
 packages:
-  EverythingSmartTechnology.Everything_Presence_Lite: github://everythingsmarthome/everything-presence-lite/everything-presence-lite-ha-no-ble.yaml@main
+  EverythingSmartTechnology.Everything_Presence_Lite: github://everythingsmarthome/everything-presence-lite/everything-presence-lite-ha.yaml@main
 esphome:
   name: ${name}
   name_add_mac_suffix: false
