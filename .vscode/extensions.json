@@ -5,6 +5,8 @@
     "GitHub.vscode-github-actions",
     "github.vscode-pull-request-github",
     "lukas-tr.materialdesignicons-intellisense",
+    "ms-python.python",
+    "ms-vscode.cpptools-extension-pack",
     "redhat.vscode-yaml"
   ]
 }
