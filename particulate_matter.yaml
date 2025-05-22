@@ -103,7 +103,7 @@ script:
     then:
       - http_request.post:
           url: https://api.sensor.community/v1/push-sensor-data/
-          headers:
+          request_headers:
             Content-Type: application/json
             X-Pin: 1 # This tells Luftdaten that it is SDS011 data.
             X-Sensor: !secret luftdaten_x_sensor
@@ -121,7 +121,7 @@ script:
 
       - http_request.post:
           url: https://api-rrd.madavi.de/data.php
-          headers:
+          request_headers:
             Content-Type: application/json
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
@@ -142,7 +142,7 @@ script:
       - http_request.post:
           # API documentation: https://docs.opensensemap.org/#api-Measurements-postNewMeasurements
           url: !secret opensensemap_url # https://api.opensensemap.org/boxes/YOUR_BOX_ID/data?luftdaten=1
-          headers:
+          request_headers:
             Content-Type: application/json
             Authorization: !secret opensensemap_access_token
           json: |-
@@ -158,7 +158,7 @@ script:
     then:
       - http_request.post:
           url: https://api.sensor.community/v1/push-sensor-data/
-          headers:
+          request_headers:
             Content-Type: application/json
             X-Pin: 11 # This tells Luftdaten that it is BME280 data.
             X-Sensor: !secret luftdaten_x_sensor
@@ -179,7 +179,7 @@ script:
 
       - http_request.post:
           url: https://api-rrd.madavi.de/data.php
-          headers:
+          request_headers:
             Content-Type: application/json
             X-Sensor: !secret luftdaten_x_sensor
           json: |-
@@ -203,7 +203,7 @@ script:
       - http_request.post:
           # API documentation: https://docs.opensensemap.org/#api-Measurements-postNewMeasurements
           url: !secret opensensemap_url # https://api.opensensemap.org/boxes/YOUR_BOX_ID/data?luftdaten=1
-          headers:
+          request_headers:
             Content-Type: application/json
             Authorization: !secret opensensemap_access_token
           json: |-
