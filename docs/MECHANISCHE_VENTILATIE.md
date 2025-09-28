@@ -25,13 +25,6 @@ This is a controller that controls the `Zehnder Stork Comfofan S Hygro` mechanic
 
 The device configuration can be found in [mechanische_ventilatie.yaml](../mechanische_ventilatie.yaml)
 
-# Components
-
-The following components are required to be installed:
-
-- [nRF905 Wireless Transceiver component](../components/nrf905/)
-- [nRF905 Zehnder component](../components/zehnder/)
-
 # Secrets
 
 This configuration requires the following secrets to be defined in your `secrets.yaml`

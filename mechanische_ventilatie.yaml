@@ -20,81 +20,88 @@ esphome:
 esp32:
   board: esp32doit-devkit-v1
   framework:
-    type: arduino
+    type: esp-idf
 
 external_components:
-  - source: components
+  - source:
+      type: git
+      url: https://github.com/srslynow/esphome-zehnder
+      ref: main
+    refresh: 60sec
+    components: [zehnder_fan]
 
-api:
-  services:
-    - service: set_speed_timer
-      variables:
-        speed: int
-        timer: int
-      then:
-        - lambda: |-
-            id(${name}_fan).setSpeed(speed, timer);
+# api:
+#   services:
+#     - service: set_speed_timer
+#       variables:
+#         speed: int
+#         timer: int
+#       then:
+#         - lambda: |-
+#             id(${name}_fan).setSpeed(speed, timer);
 
 spi:
+  id: spi_bus
   clk_pin: GPIO14
   mosi_pin: GPIO13
   miso_pin: GPIO12
 
-nrf905:
-  id: nrf905_rf
-  cs_pin: GPIO15
-  cd_pin: GPIO33
-  ce_pin: GPIO27
-  pwr_pin: GPIO26
-  txen_pin: GPIO25
-  # We don't need AM and DR at the moment as they are read from the inernal registers.
-  # am_pin: GPIO32
-  # dr_pin: GPIO35
-
 fan:
-  - platform: zehnder
+  - platform: zehnder_fan
     id: ${name}_fan
     name: Ventilatie
-    nrf905: nrf905_rf
-    update_interval: 10s
+    spi_id: spi_bus
+    cs_pin: GPIO15
+    pwr_pin: GPIO26
+    ce_pin: GPIO27
+    txen_pin: GPIO25
+    dr_pin: GPIO35
 
 button:
   - platform: template
-    id: ${name}_extra_high_15
-    name: 15 minuten extra hoog
+    name: Koppelen
+    icon: mdi:wifi
+    entity_category: config
     on_press:
-      then:
-        lambda: |-
-          id(${name}_fan).setSpeed(4, 15);
+      - lambda: |-
+          id(${name}_fan).start_pairing();
 
-  - platform: template
-    id: ${name}_extra_high_30
-    name: 30 minuten extra hoog
-    on_press:
-      then:
-        lambda: |-
-          id(${name}_fan).setSpeed(4, 30);
+  # - platform: template
+  #   id: ${name}_extra_high_15
+  #   name: 15 minuten extra hoog
+  #   on_press:
+  #     then:
+  #       lambda: |-
+  #         id(${name}_fan).setSpeed(4, 15);
 
-  - platform: template
-    id: ${name}_high_15
-    name: 15 minuten hoog
-    on_press:
-      then:
-        lambda: |-
-          id(${name}_fan).setSpeed(3, 15);
+  # - platform: template
+  #   id: ${name}_extra_high_30
+  #   name: 30 minuten extra hoog
+  #   on_press:
+  #     then:
+  #       lambda: |-
+  #         id(${name}_fan).setSpeed(4, 30);
 
-  - platform: template
-    id: ${name}_high_30
-    name: 30 minuten hoog
-    on_press:
-      then:
-        lambda: |-
-          id(${name}_fan).setSpeed(3, 30);
+  # - platform: template
+  #   id: ${name}_high_15
+  #   name: 15 minuten hoog
+  #   on_press:
+  #     then:
+  #       lambda: |-
+  #         id(${name}_fan).setSpeed(3, 15);
 
-  - platform: template
-    id: ${name}_medium_15
-    name: 15 minuten medium
-    on_press:
-      then:
-        lambda: |-
-          id(${name}_fan).setSpeed(2, 15);
+  # - platform: template
+  #   id: ${name}_high_30
+  #   name: 30 minuten hoog
+  #   on_press:
+  #     then:
+  #       lambda: |-
+  #         id(${name}_fan).setSpeed(3, 30);
+
+  # - platform: template
+  #   id: ${name}_medium_15
+  #   name: 15 minuten medium
+  #   on_press:
+  #     then:
+  #       lambda: |-
+  #         id(${name}_fan).setSpeed(2, 15);
