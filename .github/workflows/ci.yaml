@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Run prettier
         uses: creyD/prettier_action@v4.6
@@ -30,7 +30,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set matrix values
         id: set-matrix
@@ -48,7 +48,7 @@ jobs:
         configuration: ${{ fromJson(needs.list-configurations.outputs.matrix) }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Mock secrets
         uses: golles/mock-yaml-secrets-action@v1
