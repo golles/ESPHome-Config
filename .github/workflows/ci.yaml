@@ -67,7 +67,7 @@ jobs:
           mv "${{ steps.esphome-build.outputs.name }}" output/
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ steps.esphome-build.outputs.name }}
           path: output
