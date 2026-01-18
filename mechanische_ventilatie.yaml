@@ -20,25 +20,31 @@ esphome:
 esp32:
   board: esp32doit-devkit-v1
   framework:
-    type: esp-idf
+    type: arduino
+
+logger:
+  level: INFO
+
+preferences:
+  flash_write_interval: 1d
 
 external_components:
   - source:
       type: git
-      url: https://github.com/srslynow/esphome-zehnder
-      ref: main
-    refresh: 60sec
-    components: [zehnder_fan]
+      url: https://github.com/golles/ESPHome-Zehnder-RF
+      ref: fix-58
+    refresh: 0sec
+    components: [ nrf905, zehnder ]
 
-# api:
-#   services:
-#     - service: set_speed_timer
-#       variables:
-#         speed: int
-#         timer: int
-#       then:
-#         - lambda: |-
-#             id(${name}_fan).setSpeed(speed, timer);
+api:
+  services:
+    - service: set_speed_timer
+      variables:
+        speed: int
+        timer: int
+      then:
+        - lambda: |-
+            id(${name}_ventilation).setSpeed(speed, timer);
 
 spi:
   id: spi_bus
@@ -46,62 +52,110 @@ spi:
   mosi_pin: GPIO13
   miso_pin: GPIO12
 
+nrf905:
+  id: nrf905_rf
+  cs_pin: GPIO15
+  cd_pin: GPIO33
+  ce_pin: GPIO27
+  pwr_pin: GPIO26
+  txen_pin: GPIO25
+  am_pin: GPIO32
+  dr_pin: GPIO35
+
 fan:
-  - platform: zehnder_fan
-    id: ${name}_fan
-    name: Ventilatie
-    spi_id: spi_bus
-    cs_pin: GPIO15
-    pwr_pin: GPIO26
-    ce_pin: GPIO27
-    txen_pin: GPIO25
-    dr_pin: GPIO35
+  - platform: zehnder
+    id: ${name}_ventilation
+    name: Ventilation
+    nrf905: nrf905_rf
+    update_interval: 3s
+    on_speed_set:
+      - binary_sensor.template.publish:
+          id: ${name}_timer
+          state: !lambda 'return ${name}_ventilation->timer;'
+
+binary_sensor:
+  - platform: template
+    name: Timer
+    id: ${name}_timer
+    icon: mdi:fan-clock
+    lambda: !lambda 'return ${name}_ventilation->timer;'
+
+  - platform: template
+    name: Connection Status
+    id: ${name}_connection_status
+    device_class: connectivity
+    entity_category: diagnostic
+    icon: mdi:wifi-check
+    lambda: !lambda 'return ${name}_ventilation->connection_healthy_;'
+
+number:
+  - platform: template
+    id: ${name}_timer_in_minutes
+    name: Timer in minutes
+    optimistic: true
+    min_value: 0
+    max_value: 60
+    initial_value: 0
+    step: 5
+    set_action:
+      then:
+      - lambda: |-
+          ${name}_ventilation->setSpeed(4, x);
+      - number.set:
+          id: ${name}_timer_in_minutes
+          value: 0
 
 button:
   - platform: template
-    name: Koppelen
-    icon: mdi:wifi
-    entity_category: config
+    id: ${name}_auto
+    name: Auto
+    icon: mdi:fan-auto
     on_press:
-      - lambda: |-
-          id(${name}_fan).start_pairing();
+      then:
+        - lambda: |-
+            ${name}_ventilation->setSpeed(0, 0);
 
-  # - platform: template
-  #   id: ${name}_extra_high_15
-  #   name: 15 minuten extra hoog
-  #   on_press:
-  #     then:
-  #       lambda: |-
-  #         id(${name}_fan).setSpeed(4, 15);
+  - platform: template
+    id: ${name}_low
+    name: Low
+    icon: mdi:fan-speed-1
+    on_press:
+      then:
+        - lambda: |-
+            ${name}_ventilation->setSpeed(1, 0);
 
-  # - platform: template
-  #   id: ${name}_extra_high_30
-  #   name: 30 minuten extra hoog
-  #   on_press:
-  #     then:
-  #       lambda: |-
-  #         id(${name}_fan).setSpeed(4, 30);
+  - platform: template
+    id: ${name}_medium
+    name: Medium
+    icon: mdi:fan-speed-2
+    on_press:
+      then:
+        - lambda: |-
+            ${name}_ventilation->setSpeed(2, 0);
 
-  # - platform: template
-  #   id: ${name}_high_15
-  #   name: 15 minuten hoog
-  #   on_press:
-  #     then:
-  #       lambda: |-
-  #         id(${name}_fan).setSpeed(3, 15);
+  - platform: template
+    id: ${name}_high
+    name: High
+    icon: mdi:fan-speed-3
+    on_press:
+      then:
+        - lambda: |-
+            ${name}_ventilation->setSpeed(3, 0);
 
-  # - platform: template
-  #   id: ${name}_high_30
-  #   name: 30 minuten hoog
-  #   on_press:
-  #     then:
-  #       lambda: |-
-  #         id(${name}_fan).setSpeed(3, 30);
+  - platform: template
+    id: ${name}_max_15
+    name: Max 15
+    icon: mdi:fast-forward-15
+    on_press:
+      then:
+        - lambda: |-
+            ${name}_ventilation->setSpeed(4, 15);
 
-  # - platform: template
-  #   id: ${name}_medium_15
-  #   name: 15 minuten medium
-  #   on_press:
-  #     then:
-  #       lambda: |-
-  #         id(${name}_fan).setSpeed(2, 15);
+  - platform: template
+    id: ${name}_medium_15
+    name: Medium 15
+    icon: mdi:fast-forward-15
+    on_press:
+      then:
+        - lambda: |-
+            ${name}_ventilation->setSpeed(3, 15);
