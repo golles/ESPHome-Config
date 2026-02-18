@@ -32,7 +32,7 @@ external_components:
   - source:
       type: git
       url: https://github.com/golles/ESPHome-Zehnder-RF
-      ref: fix-58
+      ref: main
     refresh: 0sec
     components: [nrf905, zehnder]
 
