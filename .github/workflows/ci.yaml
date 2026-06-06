@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.0.3
 
       - name: Run prettier
         uses: creyD/prettier_action@v4.6
@@ -21,7 +21,7 @@ jobs:
           prettier_options: --check .
 
       - name: Run yamllint
-        uses: frenck/action-yamllint@v1
+        uses: frenck/action-yamllint@v1.5.0
 
   list-configurations:
     name: Prepare matrix to build all configurations
@@ -30,7 +30,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.0.3
 
       - name: Set matrix values
         id: set-matrix
@@ -48,15 +48,15 @@ jobs:
         configuration: ${{ fromJson(needs.list-configurations.outputs.matrix) }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6.0.3
 
       - name: Mock secrets
-        uses: golles/mock-yaml-secrets-action@v1
+        uses: golles/mock-yaml-secrets-action@v1.1.2
         with:
           configFile: ".github/workflows/mock-secrets-config.json"
 
       - name: Build ESPHome firmware
-        uses: esphome/build-action@v7
+        uses: esphome/build-action@v7.3.0
         id: esphome-build
         with:
           yaml-file: ${{ matrix.configuration }}
@@ -67,7 +67,7 @@ jobs:
           mv "${{ steps.esphome-build.outputs.name }}" output/
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: ${{ steps.esphome-build.outputs.name }}
           path: output
