@@ -1,0 +1,32 @@
+substitutions:
+  name: epo-logeerkamer
+  friendly_name: EPO Logeerkamer
+packages:
+  Everything Smart Technology.Everything Presence One: github://everythingsmarthome/everything-presence-one/everything-presence-one.yaml@main
+esphome:
+  name: ${name}
+  name_add_mac_suffix: false
+  friendly_name: ${friendly_name}
+api:
+  encryption:
+    key: !secret epo_logeerkamer_encryption_key
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    static_ip: !secret epo_logeerkamer_static_ip
+    gateway: !secret gateway
+    subnet: !secret subnet
+
+binary_sensor:
+  # Disable PIR, as it gives false positives all the time.
+  - id: !extend occupancy
+    # lambda: |-
+    #   return id(mmwave).state;
+    lambda: |-
+      if (id(mmwave).state and id(pir_motion_sensor).state) {
+        return true;
+      } else {
+        return false;
+      }
