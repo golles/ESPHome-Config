@@ -18,3 +18,7 @@ wifi:
     static_ip: !secret epl_keuken_static_ip
     gateway: !secret gateway
     subnet: !secret subnet
+
+update:
+  - id: !extend update_http_request
+    update_interval: never
